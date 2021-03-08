@@ -135,3 +135,4 @@ Uma empresa (Fictícia) e muito afrente de seu tempo, deseja realizar uma “peq
 * Pontos negativos
     - Há meios alternativas de contornar este problema?
 * Considerações finais
+    - Porque a empresa deveria adotar esta tecnologia para mobile?
