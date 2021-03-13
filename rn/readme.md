@@ -1,0 +1,9 @@
+## Implementação react native
+
+
+
+## Libs
+
+https://github.com/enesozturk/react-native-hold-menu
+https://callstack.github.io/react-native-paper/
+https://github.com/indiespirit/react-native-chart-kit
