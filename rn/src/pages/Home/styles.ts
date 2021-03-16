@@ -37,7 +37,7 @@ export const ContainerBottom = styled.View`
 `;
 
 export const ContainerLogin = styled.View`
-    background-color: white;
+    background-color: ${(props) => props.theme.secondColor};
     min-height: 60px;
     display: flex;
     flex-direction: row;

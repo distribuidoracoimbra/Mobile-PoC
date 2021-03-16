@@ -28,14 +28,14 @@ export type ISystemColors = {
 const SystemColors: ISystemColors = {
     dark: {
         title: 'dark',
-        priamryColor: '#0c1d49',
-        primaryDark: '#09173a',
+        priamryColor: '#161730',
+        primaryDark: '#0F1132',
         secondColor: '#1C2541',
         treeColor: '#3A506B',
         destaqueColor: '#5BC0BE',
         text: {
             primaryColor: '#fff',
-            secondColor: '#fff',
+            secondColor: '#898A96',
             invert: '#333',
         },
         outline: {
@@ -51,7 +51,7 @@ const SystemColors: ISystemColors = {
         title: 'light',
         priamryColor: '#fff',
         primaryDark: '#f0f0f0',
-        secondColor: '#1C2541',
+        secondColor: '#F8FCFD',
         treeColor: '#3A506B',
         destaqueColor: '#5BC0BE',
         text: {

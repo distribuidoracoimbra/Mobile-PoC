@@ -2,6 +2,7 @@ import React from 'react';
 import {TextInput} from 'react-native-paper';
 import {IInputProps, IInputActions} from '../IInputProps';
 // import { Container } from './styles';
+import SystemColors from '../../../preferences/theme';
 
 const MaterialInput: React.ForwardRefRenderFunction<
     IInputActions,
@@ -21,7 +22,9 @@ const MaterialInput: React.ForwardRefRenderFunction<
 ) => {
     const [value, setValue] = React.useState<string>('');
     const [focus, setFocus] = React.useState<boolean>(false);
-
+    const color = React.useMemo(() => {
+        return SystemColors[type];
+    }, [type]);
     const inputElementRef = React.useRef<any>(null);
 
     React.useImperativeHandle(ref, () => ({
@@ -50,7 +53,7 @@ const MaterialInput: React.ForwardRefRenderFunction<
             // autoCompleteType="email"
             theme={{
                 colors: {
-                    primary: '#0c1d49',
+                    primary: color.destaqueColor,
                     background: 'transparent',
                 },
                 dark: false,
@@ -59,7 +62,13 @@ const MaterialInput: React.ForwardRefRenderFunction<
                 icon && (
                     <TextInput.Icon
                         name={icon}
-                        color={focus ? 'white' : 'black'}
+                        color={
+                            focus
+                                ? color.destaqueColor
+                                : error
+                                ? color.outline.error
+                                : color.text.secondColor
+                        }
                         size={24}
                     />
                 )

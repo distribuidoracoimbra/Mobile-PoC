@@ -117,10 +117,6 @@ const ButtonInferior: React.FC = () => {
 const Home: React.FC = () => {
     const isDarkMode = useDarkMode();
 
-    React.useEffect(() => {
-        console.log('mudou ', isDarkMode);
-    }, [isDarkMode]);
-
     const Logo = React.useMemo(() => {
         if (!isDarkMode) {
             return (

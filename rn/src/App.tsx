@@ -12,8 +12,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import {StatusBar} from 'react-native';
 import Routes from './routes';
-import {Provider} from 'react-native-paper';
-import {ThemeProvider} from 'styled-components';
+import AppProvider from './hooks';
 import SystemColor from './preferences/theme';
 import {useDarkMode} from 'react-native-dark-mode';
 
@@ -30,19 +29,17 @@ const App = () => {
     }, [isDarkMode]);
 
     return (
-        <Provider>
-            <ThemeProvider theme={defaulThemeOfDevice}>
-                <StatusBar
-                    barStyle={
-                        defaulThemeOfDevice.title === 'light'
-                            ? 'dark-content'
-                            : 'light-content'
-                    }
-                    backgroundColor={defaulThemeOfDevice.primaryDark}
-                />
-                <Routes />
-            </ThemeProvider>
-        </Provider>
+        <AppProvider>
+            <StatusBar
+                barStyle={
+                    defaulThemeOfDevice.title === 'light'
+                        ? 'dark-content'
+                        : 'light-content'
+                }
+                backgroundColor={defaulThemeOfDevice.primaryDark}
+            />
+            <Routes />
+        </AppProvider>
     );
 };
 export default App;

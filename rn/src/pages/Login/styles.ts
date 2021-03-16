@@ -46,3 +46,15 @@ export const TextButton = styled.Text`
     letter-spacing: 1px;
     font-weight: bold;
 `;
+
+export const ForgotPasswordLink = styled.TouchableOpacity`
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 18px;
+`;
+
+export const TextLink = styled.Text`
+    color: ${(props) => props.theme.text.primaryColor};
+`;

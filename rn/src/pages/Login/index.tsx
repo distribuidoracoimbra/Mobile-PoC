@@ -3,18 +3,25 @@ import {
     MainText,
     Container,
     ContainerInput,
-    ContainerButton,
-    TextButton,
     ContainerText,
     SubText,
+    ForgotPasswordLink,
+    TextLink,
 } from './styles';
+import {useCardAnimation} from '@react-navigation/stack';
 import {useDarkMode} from 'react-native-dark-mode';
 import {useNavigation} from '@react-navigation/native';
 import MaterialInput from '../../components/Input/MaterialInput';
 import {IInputActions} from '@components/Input/IInputProps';
+import {useAuth} from '../../hooks/auth';
+// import SystemInput from '../../components/Input/SystemInput';
+import Button from '../../components/Button/LinearGradienteButton';
+import {Animated, ToastAndroid} from 'react-native';
 
 const Login: React.FC = () => {
     const navigation = useNavigation();
+    const {current} = useCardAnimation();
+    const {signIn} = useAuth();
 
     const [emailError, setEmailError] = React.useState<boolean>(false);
     const [passwordError, setPasswordError] = React.useState<boolean>(false);
@@ -52,45 +59,83 @@ const Login: React.FC = () => {
         }
     }, []);
 
-    const teste = () => {
-        console.log(inputEmailRef.current?.value);
-    };
+    const handleLogin = React.useCallback(async () => {
+        setEmailError(false);
+        setPasswordError(false);
+
+        if (!inputEmailRef.current!.value || !inputPasswordRef.current!.value) {
+            if (!inputEmailRef.current!.value) {
+                setEmailError(true);
+            }
+            if (!inputPasswordRef.current!.value) {
+                setPasswordError(true);
+            }
+
+            ToastAndroid.showWithGravity(
+                'Preencha todos os campos corretamente!',
+                1500,
+                ToastAndroid.BOTTOM,
+            );
+        } else {
+            try {
+                await signIn({
+                    email: inputEmailRef.current!.value,
+                    password: inputPasswordRef.current!.value,
+                });
+            } catch (error) {
+                ToastAndroid.showWithGravity(
+                    error.message,
+                    1500,
+                    ToastAndroid.BOTTOM,
+                );
+            }
+        }
+    }, [signIn]);
 
     return (
-        <Container>
-            <ContainerText>
-                <MainText>Bem vindo de volta!</MainText>
-                <SubText>Porfavor informe suas credenciais</SubText>
-            </ContainerText>
-            <ContainerInput>
-                <MaterialInput
-                    type="light"
-                    name="email"
-                    returnKeyType="next"
-                    placeholder=""
-                    onBlur={() => validEmail()}
-                    onSubmitEditing={() => inputPasswordRef.current?.focus()}
-                    error={emailError}
-                    ref={inputEmailRef}
-                />
-            </ContainerInput>
-            <ContainerInput>
-                <MaterialInput
-                    name="password"
-                    type="light"
-                    onBlur={validPassword}
-                    autoCompleteType="password"
-                    secureTextEntry={true}
-                    onSubmitEditing={() => {}}
-                    error={passwordError}
-                    ref={inputPasswordRef}
-                />
-            </ContainerInput>
+        <Animated.View
+            style={{
+                flex: 1,
+                transform: [{scale: current.progress}],
+            }}>
+            <Container>
+                <ContainerText>
+                    <MainText>Bem vindo de volta!</MainText>
+                    <SubText>Porfavor informe suas credenciais</SubText>
+                </ContainerText>
+                <ContainerInput>
+                    <MaterialInput
+                        name="email"
+                        type={isDark ? 'dark' : 'light'}
+                        returnKeyType="next"
+                        placeholder=""
+                        onBlur={() => validEmail()}
+                        onSubmitEditing={() =>
+                            inputPasswordRef.current?.focus()
+                        }
+                        error={emailError}
+                        ref={inputEmailRef}
+                    />
+                </ContainerInput>
+                <ContainerInput>
+                    <MaterialInput
+                        name="password"
+                        type="light"
+                        onBlur={validPassword}
+                        autoCompleteType="password"
+                        secureTextEntry={true}
+                        onSubmitEditing={() => {}}
+                        error={passwordError}
+                        ref={inputPasswordRef}
+                    />
+                </ContainerInput>
 
-            <ContainerButton onPress={teste} activeOpacity={0.8}>
-                <TextButton>Entrar</TextButton>
-            </ContainerButton>
-        </Container>
+                <Button title="Entrar" onPress={handleLogin} />
+                <ForgotPasswordLink>
+                    <TextLink>Recuperar senha</TextLink>
+                </ForgotPasswordLink>
+            </Container>
+        </Animated.View>
     );
 };
 
