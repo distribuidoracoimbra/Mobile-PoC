@@ -1,20 +1,51 @@
 import React from 'react';
 import Profile from '../pages/AuthPages/Profile';
+import ButtonShipping from '../components/Button/ButtonShipping';
 import Shopping from '../pages/AuthPages/Shopping';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import Pedidos from '../pages/AuthPages/Pedidos';
+import Clientes from '../pages/AuthPages/Clientes';
+import Produtos from '../pages/AuthPages/Produtos';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {View} from 'react-native';
 // import {createStackNavigator} from '@react-navigation/stack';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 // const PrivateStackNavigation = createStackNavigator();
 
 const PrivateRoutes: React.FC = () => {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="profile" component={Profile} />
-            <Tab.Screen name="shopping" component={Shopping} />
+        <Tab.Navigator
+            lazy={true}
+            tabBarOptions={{
+                style: {
+                    backgroundColor: '#131418',
+                },
+                activeTintColor: '#fff',
+                inactiveTintColor: 'rgba(255,255,255,0.5)',
+            }}>
+            <Tab.Screen name="produtos" component={Produtos} />
+            <Tab.Screen
+                name="shopping"
+                options={{
+                    tabBarIcon: () => <ButtonShipping />,
+                    title: '',
+                }}
+                component={Shopping}
+            />
+            <Tab.Screen name="pedidos" component={Pedidos} />
         </Tab.Navigator>
     );
 };
 
 // import { Container } from './styles';
 export default PrivateRoutes;
+
+/**
+ * activeColor="#fff"
+            barStyle={{
+                backgroundColor: '#131418',
+                borderColor: ,
+            }}
+            inactiveColor="#92929c"
+ *
+ */

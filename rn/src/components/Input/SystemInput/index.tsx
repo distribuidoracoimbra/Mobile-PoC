@@ -23,7 +23,6 @@ const SystemInput: React.ForwardRefRenderFunction<
 ) => {
     // const [value, setValue] = React.useState<string>('');
     const [focus, setFocus] = React.useState<boolean>(false);
-    console.log(type);
     const color = React.useMemo(() => {
         return SystemColors[type];
     }, [type]);
