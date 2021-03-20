@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import LinearGradiente from 'react-native-linear-gradient';
 
 export const Container = styled.TouchableHighlight`
     width: 60px;
@@ -12,22 +11,18 @@ export const Container = styled.TouchableHighlight`
 `;
 
 export const ContainerOfButton = styled.View`
-    flex: 1;
-`;
-
-export const Button = styled(LinearGradiente)`
-    flex: 1;
     width: 100%;
     height: 100%;
     align-items: center;
+    text-align: center;
     justify-content: center;
+    position: relative;
 `;
 
-export const ContainerOpacity = styled.View`
-    background-color: rgba(255, 255, 255, 0.1);
-
+export const ContainerOfText = styled.View`
     position: absolute;
-    z-index: 1;
-    width: 20px;
+    width: 100%;
     height: 100%;
+    justify-content: center;
+    align-items: center;
 `;

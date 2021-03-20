@@ -1,42 +1,44 @@
 import React from 'react';
 import {Text} from 'react-native';
-import * as Animated from 'react-native-animatable';
+import LottieView from 'lottie-react-native';
 
-import {Container, Button, ContainerOpacity, ContainerOfButton} from './styles';
+import {Container, ContainerOfText, ContainerOfButton} from './styles';
 
-const ButtonShipping: React.FC = () => {
-    const NewAnimatedComponent = Animated.createAnimatableComponent(
-        ContainerOpacity,
-    );
+interface IButtonShippingProps {
+    action: () => void;
+}
+
+const ButtonShipping: React.FC<IButtonShippingProps> = ({action}) => {
     return (
         <Container
-            onPress={() => console.log('asdf')}
+            onPress={action}
             style={{
                 elevation: 2,
             }}>
             <ContainerOfButton>
-                <NewAnimatedComponent
-                    animation={{
-                        from: {
-                            left: -20,
-                            opacity: 1,
-                        },
-                        to: {
-                            left: 56,
-                            opacity: 0,
-                        },
+                <LottieView
+                    autoSize
+                    resizeMode="center"
+                    renderMode="HARDWARE"
+                    source={require('../../../../assets/animation/button-animation.json')}
+                    cacheStrategy="strong"
+                    hardwareAccelerationAndroid
+                    duration={5000}
+                    style={{
+                        display: 'flex',
+                        flex: 1,
                     }}
-                    easing="ease-in-out"
-                    duration={700}
-                    iterationDelay={3000}
-                    iterationCount="infinite"
                 />
-                <Button
-                    colors={['#3F45F9', '#0387FE']}
-                    start={{x: 0, y: 0}}
-                    end={{x: 1, y: 0}}>
-                    <Text style={{color: 'white'}}>$</Text>
-                </Button>
+                <ContainerOfText>
+                    <Text
+                        style={{
+                            color: 'white',
+                            fontSize: 25,
+                            fontWeight: 'bold',
+                        }}>
+                        $
+                    </Text>
+                </ContainerOfText>
             </ContainerOfButton>
         </Container>
     );

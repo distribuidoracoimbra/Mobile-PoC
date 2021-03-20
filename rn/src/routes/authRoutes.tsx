@@ -16,6 +16,17 @@ const PrivateRoutes: React.FC = () => {
     return (
         <Tab.Navigator
             lazy={true}
+            screenOptions={({route, navigation}) => ({
+                tabBarIcon: ({color, focused}) => {
+                    if (route.name === 'shopping') {
+                        return (
+                            <ButtonShipping
+                                action={() => navigation.navigate('shopping')}
+                            />
+                        );
+                    }
+                },
+            })}
             tabBarOptions={{
                 style: {
                     backgroundColor: '#131418',
@@ -27,7 +38,6 @@ const PrivateRoutes: React.FC = () => {
             <Tab.Screen
                 name="shopping"
                 options={{
-                    tabBarIcon: () => <ButtonShipping />,
                     title: '',
                 }}
                 component={Shopping}
