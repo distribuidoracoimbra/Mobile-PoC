@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import PrivateRoutes from './authRoutes';
+import PrivateRoutes from './AuthRoutes';
 import {useAuth} from '../hooks/auth';
 import {ActivityIndicator, View} from 'react-native';
 

@@ -23,7 +23,8 @@ const ButtonShipping: React.FC<IButtonShippingProps> = ({action}) => {
                     source={require('../../../../assets/animation/button-animation.json')}
                     cacheStrategy="strong"
                     hardwareAccelerationAndroid
-                    duration={5000}
+                    autoPlay
+                    loop
                     style={{
                         display: 'flex',
                         flex: 1,
