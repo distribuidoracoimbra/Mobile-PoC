@@ -1,20 +1,52 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {Text, Keyboard} from 'react-native';
 import {FAB} from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-// import { Container } from './styles';
+import {
+    ContainerHeader,
+    NameHeader,
+    ContainerPesquisaPedidos,
+    InputPesquisaPedidos,
+    Container,
+} from './styles';
+
+const Header: React.FC = () => {
+    const [containerFocused, setContainerFocused] = React.useState(false);
+    return (
+        <ContainerHeader>
+            <NameHeader>Olá @Delfio Francisco</NameHeader>
+            <ContainerPesquisaPedidos focused={containerFocused}>
+                <MaterialIcons name="search" size={24} color="grey" />
+                <InputPesquisaPedidos
+                    placeholder="qual pedido deseja pesquisar?"
+                    onFocus={() => setContainerFocused(true)}
+                    onBlur={() => setContainerFocused(false)}
+                />
+            </ContainerPesquisaPedidos>
+        </ContainerHeader>
+    );
+};
 
 const Config: React.FC = () => {
     const [open, setOpen] = React.useState(false);
+    const [fabVisible, setFabVisible] = React.useState(true);
+
+    React.useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', () => setFabVisible(false));
+        Keyboard.addListener('keyboardDidHide', () => setFabVisible(true));
+
+        return () => {
+            Keyboard.removeAllListeners('keyboardDidHide');
+            Keyboard.removeAllListeners('keyboardDidShow');
+        };
+    }, []);
+
     return (
-        <View
-            style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
+        <Container>
             <FAB.Group
                 open={open}
+                visible={fabVisible}
                 icon="plus"
                 color="#fff"
                 fabStyle={{
@@ -40,10 +72,10 @@ const Config: React.FC = () => {
                     },
                 ]}
                 onStateChange={() => setOpen((oldState) => !oldState)}
-                onPress={() => console.log('asdf')}
             />
+            <Header />
             <Text>Pedidos</Text>
-        </View>
+        </Container>
     );
 };
 

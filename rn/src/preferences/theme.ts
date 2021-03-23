@@ -29,7 +29,7 @@ const SystemColors: ISystemColors = {
     dark: {
         title: 'dark',
         priamryColor: '#161730',
-        primaryDark: '#0F1132',
+        primaryDark: '#131418',
         secondColor: '#1C2541',
         treeColor: '#3A506B',
         destaqueColor: '#5BC0BE',
@@ -50,7 +50,7 @@ const SystemColors: ISystemColors = {
     light: {
         title: 'light',
         priamryColor: '#fff',
-        primaryDark: '#f0f0f0',
+        primaryDark: '#F5F5F5',
         secondColor: '#F8FCFD',
         treeColor: '#3A506B',
         destaqueColor: '#5BC0BE',
@@ -71,3 +71,12 @@ const SystemColors: ISystemColors = {
 };
 
 export default SystemColors;
+
+/**
+ * style: {
+                    backgroundColor: '#131418',
+                },
+                activeTintColor: '#fff',
+                inactiveTintColor: 'rgba(255,255,255,0.5)',
+ *
+ */
