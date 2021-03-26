@@ -1,8 +1,9 @@
 import React from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, SafeAreaView, Text, View, Dimensions} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import {ActivityIndicator} from 'react-native-paper';
+import LottieAnimation from 'lottie-react-native';
 import notify from './data.json';
+import * as Animation from 'react-native-animatable';
 
 import {
     Container,
@@ -30,34 +31,41 @@ interface ListItemProps {
 }
 
 const ListItemOfNotification: React.FC<ListItemProps> = ({data, onDelete}) => {
-    const LeftActions = () => {
-        return (
-            <ContainerOfMakeReading type="READING">
-                <TextOfHandlingNotify>Concluir</TextOfHandlingNotify>
-            </ContainerOfMakeReading>
-        );
-    };
+    const animationContainerRef = React.useRef<any>(null);
 
     const RigthActions = () => {
         return (
             <ContainerOfMakeReading type="REPORT">
-                <TextOfHandlingNotify>REPORTAR</TextOfHandlingNotify>
+                <TextOfHandlingNotify>Deletar</TextOfHandlingNotify>
             </ContainerOfMakeReading>
         );
     };
 
+    const handleDeleteInfo = React.useCallback(() => {
+        animationContainerRef.current!.bounceOutLeft();
+        setInterval(() => {
+            onDelete(data.id);
+        }, 1000);
+    }, [data.id, onDelete]);
+
     return (
-        <Swipeable
-            renderLeftActions={LeftActions}
-            renderRightActions={RigthActions}
-            onSwipeableRightOpen={() => onDelete(data.id)}>
-            <ContainerNotification>
-                <TextOfNotification>{data.text}</TextOfNotification>
-                <ContainerDataPublicacao>
-                    <TextOfHour>{data.data}</TextOfHour>
-                </ContainerDataPublicacao>
-            </ContainerNotification>
-        </Swipeable>
+        <Animation.View
+            ref={animationContainerRef}
+            style={{
+                flex: 1,
+            }}
+            onAnimationEnd={() => console.log('acabando')}>
+            <Swipeable
+                renderRightActions={RigthActions}
+                onSwipeableRightOpen={handleDeleteInfo}>
+                <ContainerNotification>
+                    <TextOfNotification>{data.text}</TextOfNotification>
+                    <ContainerDataPublicacao>
+                        <TextOfHour>{data.data}</TextOfHour>
+                    </ContainerDataPublicacao>
+                </ContainerNotification>
+            </Swipeable>
+        </Animation.View>
     );
 };
 
@@ -72,16 +80,45 @@ const Notification: React.FC = () => {
         );
     }, []);
 
+    const dimensoes = React.useMemo(() => {
+        return Dimensions.get('window').width;
+    }, []);
+
     if (!notifcations || notifcations.length <= 0) {
         return (
-            <View
+            <SafeAreaView
                 style={{
                     flex: 1,
                     justifyContent: 'center',
-                    alignContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
                 }}>
-                <ActivityIndicator />
-            </View>
+                <View
+                    style={{
+                        flex: 1,
+                        width: '100%',
+                        alignItems: 'center',
+                    }}>
+                    <LottieAnimation
+                        resizeMode="contain"
+                        hardwareAccelerationAndroid
+                        autoPlay
+                        loop
+                        style={{
+                            display: 'flex',
+                        }}
+                        source={require('../../../../assets/animation/rocket-dog.json')}
+                    />
+                    <Text
+                        style={{
+                            fontSize: 18,
+                            color: 'rgba(0,0,0,0.8)',
+                            marginTop: dimensoes / 2,
+                        }}>
+                        Não há nada aqui
+                    </Text>
+                </View>
+            </SafeAreaView>
         );
     }
     return (
