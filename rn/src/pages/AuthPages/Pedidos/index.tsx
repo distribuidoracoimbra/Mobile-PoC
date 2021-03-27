@@ -29,7 +29,7 @@ const Header: React.FC = () => {
 };
 
 const Config: React.FC = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState<boolean>(false);
     const [fabVisible, setFabVisible] = React.useState(true);
 
     React.useEffect(() => {
@@ -71,7 +71,7 @@ const Config: React.FC = () => {
                         small: false,
                     },
                 ]}
-                onStateChange={() => setOpen((oldState) => !oldState)}
+                onStateChange={() => setOpen((oldState: boolean) => !oldState)}
             />
             <Header />
             <Text>Pedidos</Text>
