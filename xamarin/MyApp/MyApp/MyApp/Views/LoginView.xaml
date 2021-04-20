@@ -6,33 +6,52 @@
         <vm:LoginViewModel />
     </ContentPage.BindingContext>
 
-    <Grid Padding="10" VerticalOptions="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollView>
+        <StackLayout VerticalOptions="CenterAndExpand"
+                         Spacing="20"
+                         Padding="20">
 
-        <StackLayout Grid.Row="0" VerticalOptions="Center">
-            <Image Source="logodc.png"
-                   WidthRequest="150" HeightRequest="150"/>
+            <Image Source="homer.png"
+                       HeightRequest="100"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"/>
 
-            <Label Text="Login" FontFamily="Verdana"
-                   TextColor="Purple" FontSize="30"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"/>
+            <Label Text="Bem vindo ao SigBeer !" 
+                      TextColor="#1C1C1C"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand" />
+
+            <Entry Placeholder="Usuário"
+                   PlaceholderColor="#bbdefb"
+                   Text="{Binding Username}"/>
+            
+            <Entry Placeholder="Senha"
+                   PlaceholderColor="#bbdefb"
+                   Text="{Binding Password}"
+                   IsPassword="True"/>
+            
+            <Button Text="Login"
+                    BackgroundColor="#3897f0" 
+                    TextColor="White"
+                    VerticalOptions="Start"
+                    Visual="Material"
+                    Command="{Binding LoginCommand}"
+                    />
+
+            <Label Text="Novo Usuário ?"
+                   VerticalOptions="FillAndExpand" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="Center"/>
+                  
+            <Button Text="Registre-se"
+                    BackgroundColor="#00FF7F" 
+                    TextColor="White"
+                    VerticalOptions="Start"
+                    Visual="Material"         
+                    Command="{Binding RegisterCommand}"
+                    />
+
         </StackLayout>
-
-        <StackLayout Grid.Row="1" Spacing="5">
-            <Entry Placeholder="Nome do usuário" Text="{Binding Username}" />
-            <Entry Placeholder="Senha do usuário" Text="{Binding Password}" IsPassword="True"/>
-            <Button Text="Login" HorizontalOptions="Center" Background="Black"
-                    TextColor="White" WidthRequest="300" HeightRequest="40"
-                    Command="{Binding LoginCommand}"/>
-            <Label Text="Novo Usuário ? " FontAttributes="Bold" TextColor="Purple"/>            
-            <Button Text="Registrar" HorizontalOptions="Center" Background="DarkSlateGray"
-                    TextColor="White" WidthRequest="300" HeightRequest="40"
-                    Command="{Binding RegisterCommand}"/>
-        </StackLayout>
-    </Grid>
+    </ScrollView>
     
 </ContentPage>

@@ -31,7 +31,7 @@ namespace MyApp.Services
         {
             if (await IsUserExists(name) == false)
             {
-                await client.Child("Users")
+                _ = await client.Child("Users")
                     .PostAsync(new User()
                     {
                         Username = name,
@@ -47,7 +47,7 @@ namespace MyApp.Services
 
         public async Task<bool> LoginUser(string name, string passwd)
         {
-            var user = (await client.Child("Users")
+            FirebaseObject<User> user = (await client.Child("Users")
                 .OnceAsync<User>())
                 .Where(u => u.Object.Username == name)
                 .Where(u => u.Object.Password == passwd)
