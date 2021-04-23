@@ -11,7 +11,7 @@ namespace MyApp
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new LoginView());
+            MainPage = new NavigationPage(new SplashView());
         }
 
         protected override void OnStart()
