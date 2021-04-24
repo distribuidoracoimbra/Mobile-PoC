@@ -11,7 +11,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\AboutUS\**" />
+    <Compile Remove="Views\Configuration\**" />
+    <Compile Remove="Views\ProfileSettings\**" />
+    <EmbeddedResource Remove="Views\AboutUS\**" />
+    <EmbeddedResource Remove="Views\Configuration\**" />
+    <EmbeddedResource Remove="Views\ProfileSettings\**" />
+    <None Remove="Views\AboutUS\**" />
+    <None Remove="Views\Configuration\**" />
+    <None Remove="Views\ProfileSettings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Views\Class1.cs" />
+    <Compile Remove="Views\Home.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\Home.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +43,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MenuItems.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Produtos.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SplashView.xaml">

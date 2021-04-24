@@ -41,12 +41,11 @@ namespace MyApp.Views
             base.OnAppearing();
 
             await splashImage.ScaleTo(1, 100);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 await splashImage.ScaleTo(0.8, 500, Easing.Linear);
                 await splashImage.ScaleTo(1, 500, Easing.Linear);
             }
-           
             Application.Current.MainPage = new NavigationPage(new LoginView());
         }
 
