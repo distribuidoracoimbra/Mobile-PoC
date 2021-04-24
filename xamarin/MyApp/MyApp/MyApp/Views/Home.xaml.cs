@@ -10,12 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace MyApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginView : ContentPage
+    public partial class Home : ContentPage
     {
-        public LoginView()
+        public Home()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace MyApp.Views
         public ContatosView()
         {
             InitializeComponent();
+            
         }
 
         protected async override void OnAppearing()

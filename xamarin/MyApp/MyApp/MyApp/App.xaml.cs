@@ -10,8 +10,7 @@ namespace MyApp
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new LoginView());
+            MainPage = new NavigationPage(new SplashView());
         }
 
         protected override void OnStart()

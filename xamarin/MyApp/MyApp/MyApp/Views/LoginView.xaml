@@ -23,13 +23,15 @@
 
             <Entry Placeholder="Usuário"
                    PlaceholderColor="#bbdefb"
-                   Text="{Binding Username}"/>
+                   Text="{Binding Username}"
+                   HorizontalTextAlignment="Center"/>
             
             <Entry Placeholder="Senha"
                    PlaceholderColor="#bbdefb"
                    Text="{Binding Password}"
-                   IsPassword="True"/>
-            
+                   IsPassword="True"
+                   HorizontalTextAlignment="Center"/>
+
             <Button Text="Login"
                     BackgroundColor="#3897f0" 
                     TextColor="White"
@@ -38,13 +40,8 @@
                     Command="{Binding LoginCommand}"
                     />
 
-            <Label Text="Novo Usuário ?"
-                   VerticalOptions="FillAndExpand" 
-                   VerticalTextAlignment="Center" 
-                   HorizontalTextAlignment="Center"/>
-                  
             <Button Text="Registre-se"
-                    BackgroundColor="#00FF7F" 
+                    BackgroundColor="#2E8B57" 
                     TextColor="White"
                     VerticalOptions="Start"
                     Visual="Material"         

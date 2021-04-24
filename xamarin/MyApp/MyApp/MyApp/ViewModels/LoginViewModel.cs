@@ -118,7 +118,7 @@ namespace MyApp.ViewModels
                 if (Result)
                 {
                     Preferences.Set("Username", Username);
-                    await Application.Current.MainPage.Navigation.PushAsync(new ContatosView());
+                    await Application.Current.MainPage.Navigation.PushAsync(new MyApp.MainPage());
                 }
                 else
                 {
