@@ -26,7 +26,7 @@ namespace MyApp
 
             //Fot Ios icons
             var page1 = new MasterPageItem() { Title = "Pedidos", Icon = "ic_local_shipping.png", TargetType = typeof(Produtos) };
-            var page2 = new MasterPageItem() { Title = "Produtos", Icon = "ic_restaurant.png", TargetType = typeof(Produtos) };
+            var page2 = new MasterPageItem() { Title = "Produtos", Icon = "ic_restaurant.png", TargetType = typeof(MylistPage) };
             var page3 = new MasterPageItem() { Title = "Clientes", Icon = "ic_local_pizza.png", TargetType = typeof(ContatosView) };
             var page4 = new MasterPageItem() { Title = "Comunicação", Icon = "ic_local_dining.png", TargetType = typeof(Produtos) };
 
