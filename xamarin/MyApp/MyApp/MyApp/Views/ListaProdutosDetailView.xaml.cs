@@ -5,14 +5,17 @@ namespace MyApp.Views
 {
     public partial class ListaProdutosDetailView : ContentPage
     {
-        public ListaProdutosDetailView(string Name, string Estoque, string source)
+        public ListaProdutosDetailView(string pro_codigo, string pro_descricao, string Estoque, string source, string Valor)
         {
             InitializeComponent();
 
-            MyItemNameShow.Text = Name;
-            MyEstoque.Text = Estoque;
+            lblpro_codigo.Text = pro_codigo;
+            lblpro_descricao.Text = pro_descricao;
+            lblvalor.Text = "R$ " + Valor + ",00";
+            lblestoque.Text = "Disponivel: " + Estoque ;
 
-            MyImageCall.Source = new UriImageSource()
+
+            ImagemProduto.Source = new UriImageSource()
             {
                 Uri = new Uri(source)
             };

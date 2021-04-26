@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="MyApp.Views.ListaClientesDetailView" 
+             Title="Cliente"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             >
+    <ContentPage.Content>
+
+        <StackLayout HorizontalOptions="Center" WidthRequest="1080" >
+            <StackLayout HorizontalOptions="StartAndExpand" 
+                         Orientation="Horizontal" >
+                <Label x:Name="lblcli_codigo" HorizontalTextAlignment="Start"  FontSize="18" FontAttributes="Bold" Padding="10,  0, 5, 5"/>
+                <Label x:Name="lblcli_nome" HorizontalTextAlignment="Start"  FontSize="18" FontAttributes="Bold" Padding="10,  0, 5, 5"/>
+            </StackLayout>
+            <Label x:Name="lblcli_limite" FontSize="14" Padding="10, 0, 5, 5"/>
+            <Label x:Name="lblcli_fones" FontSize="14" Padding="10, 0, 5, 5"/>
+          
+            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                <Button x:Name="btnPedidos2"  Text="Pedidos"  Grid.Column ="0" HeightRequest="40" BackgroundColor="#429de3"   />
+                <Button x:Name="btnLigar2"    Text="Ligar"    Grid.Column ="1" HeightRequest="40" BackgroundColor="#429de3"   />
+                <Button x:Name="btnProdutos2" Text="Produtos" Grid.Column ="2" HeightRequest="40" BackgroundColor="#429de3"   />
+            </Grid>
+            
+            <maps:Map x:Name="map" />
+                
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
