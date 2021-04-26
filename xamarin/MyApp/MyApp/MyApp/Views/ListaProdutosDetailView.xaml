@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MyApp.Views.ListaProdutosDetailView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MyApp.Views.ListaProdutosDetailView" Title="Produto">
     <ContentPage.Content>
 
         <StackLayout HorizontalOptions="Center">
-            <Label Text="Bem Vindo a Sig Beer."/>
-            <Image x:Name="MyImageCall" HeightRequest="100" WidthRequest="100"/>
-            <Label x:Name="MyItemNameShow" HorizontalTextAlignment="Center"/>
-            <Label x:Name="MyEstoque" Margin="20,20" FontSize="Small"/>
+            <Image x:Name="ImagemProduto" WidthRequest="1080"/>
+            <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal" >
+                <Label x:Name="lblpro_codigo" HorizontalTextAlignment="Start"  FontSize="18" FontAttributes="Bold" Padding="10,  0, 5, 5"/>
+                <Label x:Name="lblpro_descricao" HorizontalTextAlignment="Start"  FontSize="18" FontAttributes="Bold" Padding="10,  0, 5, 5"/>
+            </StackLayout>
+            <Label x:Name="lblvalor"   FontSize="14" Padding="10, 0, 5, 5"/>
+            <Label x:Name="lblestoque" FontSize="14" Padding="10, 0, 5, 5"/>
+            <Button x:Name="btnAdd" Text="Add To cart" BackgroundColor="#429de3" Margin=" 5,5,5,5" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
