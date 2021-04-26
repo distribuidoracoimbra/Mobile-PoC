@@ -132,6 +132,21 @@
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>3.0.0.5</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Compat">
+      <Version>25.1.0-beta2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Core.UI">
+      <Version>25.1.0-beta2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Core.Utils">
+      <Version>25.1.0-beta2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Fragment">
+      <Version>25.1.0-beta2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Media.Compat">
+      <Version>25.1.0-beta2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.GoogleMaps">

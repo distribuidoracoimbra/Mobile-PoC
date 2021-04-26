@@ -35,8 +35,12 @@
 
   <ItemGroup>
     <PackageReference Include="FirebaseDatabase.net" Version="4.0.6" />
-    <PackageReference Include="PCLStorage" Version="1.0.2" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
+    <PackageReference Include="Xamarin.Android.Support.Compat" Version="25.1.0-beta2" />
+    <PackageReference Include="Xamarin.Android.Support.Core.UI" Version="25.1.0-beta2" />
+    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="25.1.0-beta2" />
+    <PackageReference Include="Xamarin.Android.Support.Fragment" Version="25.1.0-beta2" />
+    <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="25.1.0-beta2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="3.3.0" />
