@@ -57,9 +57,6 @@
     <PackageReference Include="FirebaseDatabase.net">
       <Version>4.0.6</Version>
     </PackageReference>
-    <PackageReference Include="PCLStorage">
-      <Version>1.0.2</Version>
-    </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>3.0.0.5</Version>
     </PackageReference>
