@@ -20,7 +20,7 @@ namespace MyApp.Views
             };
 
             map.Pins.Add(pinCliente);
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(pinCliente.Position, Distance.FromMeters(10000)));
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(pinCliente.Position, Distance.FromMeters(1000)));
 
             lblcli_codigo.Text = cli_codigo;
             lblcli_nome.Text =  cli_nome;
