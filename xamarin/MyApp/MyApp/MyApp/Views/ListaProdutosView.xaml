@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:MyApp.ViewModels"
+             Title="Lista de Produtos"
              x:Class="MyApp.Views.ListaProdutosView"
-             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
-             Title="Lista de Produtos">
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin">
+
+    <ContentPage.BindingContext>
+        <vm:ProdutosViewModel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <ListView  x:Name="ListViewProdutos"
-                   ItemsSource="{Binding listaProdutos}"
+                   ItemsSource="{Binding ListaProdutos}"
                    HasUnevenRows="true"
                    SeparatorVisibility="Default"
                    ItemTapped="OnItemSelected">
@@ -32,27 +37,27 @@
                                        WidthRequest="66"
                                        Grid.RowSpan="3"
                                        Grid.ColumnSpan="1"
-                                       Source= "{Binding fotos[0]}"/>
+                                       Source= "{Binding Fotos[0]}"/>
 
                             <StackLayout Grid.Column="1"
                                          Grid.Row="0"
                                          HorizontalOptions="StartAndExpand" 
                                          Orientation="Horizontal" >
                                 <Label FontAttributes="Bold"
-                                       Text="{Binding pro_codigo , StringFormat= '{0:F0}'}" />
+                                       Text="{Binding ProdutoID , StringFormat= '{0:F0}'}" />
                                 <Label FontAttributes="Bold"
-                                       Text="{Binding pro_descricao , StringFormat= '- {0:F0}'}" />
+                                       Text="{Binding Descricao , StringFormat= '- {0:F0}'}" />
                             </StackLayout>
                             
 
                             <Label  Grid.Row="1"
                                     Grid.Column="1"  
                                     VerticalOptions="Start"
-                                    Text="{Binding valor, StringFormat= 'R$ {0:F0},00'}"/>
+                                    Text="{Binding Valor, StringFormat= 'R$ {0:F0},00'}"/>
 
                             <Label Grid.Row="2"
                                    Grid.Column="1"
-                                   Text="{Binding estoque, StringFormat= 'Disponivel {0:F0}'}"
+                                   Text="{Binding Estoque, StringFormat= 'Disponivel {0:F0}'}"
                                    VerticalOptions="End"
                                    HorizontalTextAlignment="Start"                                  
                                    />

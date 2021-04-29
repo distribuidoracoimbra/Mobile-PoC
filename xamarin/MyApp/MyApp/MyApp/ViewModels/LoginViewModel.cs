@@ -1,8 +1,6 @@
 ﻿using MyApp.Services;
 using MyApp.Views;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,13 +14,10 @@ namespace MyApp.ViewModels
         {
             set
             {
-                this._Username = value;
+                _Username = value;
                 OnPropertyChanged();
             }
-            get
-            {
-                return this._Username;
-            }
+            get => _Username;
         }
 
         private string _Password;
