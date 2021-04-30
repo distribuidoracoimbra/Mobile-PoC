@@ -1,46 +1,54 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 
-export const Container = styled.View`
-    background-color: ${(props) => props.theme.priamryColor};
+export const Container = styled.SafeAreaView`
     flex: 1;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    position: relative;
-`;
-
-export const ContainerProfile = styled.View`
-    display: flex;
-    flex-direction: row;
     align-items: center;
-`;
-
-type ITypeOfText = {
-    type: 'title' | 'normal';
-};
-
-export const TextOfUser = styled.Text<ITypeOfText>`
-    color: ${(props) =>
-        props.type === 'title'
-            ? props.theme.text.primaryColor
-            : props.theme.text.secondColor};
-    font-size: ${(props) => (props.type === 'title' ? '17px' : '12px')};
-    font-weight: ${(props) => (props.type === 'title' ? '700' : 'normal')};
-    letter-spacing: 2px;
+    position: relative;
+    background-color: #fff;
 `;
 
 export const ContainerBottom = styled.View`
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-`;
-
-export const ContainerLogin = styled.View`
-    background-color: ${(props) => props.theme.secondColor};
-    min-height: 60px;
+    height: 10%;
+    min-height: 50px;
+    background-color: #e9fbff;
     display: flex;
     flex-direction: row;
-    padding: 15px;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    padding: 0 25px 0;
+`;
+
+type IButtonBackground = {
+    background?: 'black';
+};
+
+const cssButton = {
+    black: css`
+        color: white;
+        background-color: black;
+    `,
+    default: css`
+        color: black;
+        background-color: white;
+    `,
+};
+
+export const ButtonOfContainer = styled.TouchableOpacity<IButtonBackground>`
+    width: 130px;
+    height: 60%;
+    min-height: 45px;
+    ${({background}) => cssButton[background || 'default']}
+    margin-left: 25px;
+    border-radius: 15px;
+    border: 2px solid black;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const TextOfButton = styled.Text<IButtonBackground>`
+    color: ${(props) => (props.background ? 'white' : 'black')};
 `;

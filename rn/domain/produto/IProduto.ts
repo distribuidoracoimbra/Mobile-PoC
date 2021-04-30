@@ -12,18 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import RotasIniciais from './InitialRoutes';
-import AuthRoutes from './AuthRoutes';
-
-const Routes: React.FC = () => {
-    const usuarioLogado = false;
-    return (
-        <NavigationContainer>
-            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
-        </NavigationContainer>
-    );
-};
-
-export default Routes;
+export interface IProduto {
+    pro_codigo: number;
+    pro_descricao: string;
+    estoque: number;
+    valor: number;
+    fotos: string[];
+}

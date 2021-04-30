@@ -13,31 +13,13 @@ import 'react-native-gesture-handler';
 import {StatusBar} from 'react-native';
 import Routes from './routes';
 import AppProvider from './hooks';
-import SystemColor from './preferences/theme';
-import {useDarkMode} from 'react-native-dark-mode';
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
-    const isDarkMode = useDarkMode();
-
-    const defaulThemeOfDevice = React.useMemo(() => {
-        if (isDarkMode) {
-            return SystemColor.dark;
-        }
-        return SystemColor.light;
-    }, [isDarkMode]);
-
     return (
         <AppProvider>
-            <StatusBar
-                barStyle={
-                    defaulThemeOfDevice.title === 'light'
-                        ? 'dark-content'
-                        : 'light-content'
-                }
-                backgroundColor={defaulThemeOfDevice.primaryDark}
-            />
+            <StatusBar backgroundColor="#f0f0f0" barStyle="dark-content" />
             <Routes />
         </AppProvider>
     );

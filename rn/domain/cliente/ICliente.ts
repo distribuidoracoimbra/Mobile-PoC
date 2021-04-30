@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import RotasIniciais from './InitialRoutes';
-import AuthRoutes from './AuthRoutes';
-
-const Routes: React.FC = () => {
-    const usuarioLogado = false;
-    return (
-        <NavigationContainer>
-            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
-        </NavigationContainer>
-    );
+export type IEndereco = {
+    cli_coord_latitude: number;
+    cli_coord_longitude: number;
+    cli_cep: string;
 };
 
-export default Routes;
+export interface ICliente {
+    cli_codigo: number;
+    cli_nome: string;
+    cli_fones: string[];
+    cli_limite: number;
+    cli_endereco: IEndereco;
+}

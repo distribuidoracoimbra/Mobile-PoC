@@ -11,19 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import {ICliente} from './ICliente';
 
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import RotasIniciais from './InitialRoutes';
-import AuthRoutes from './AuthRoutes';
-
-const Routes: React.FC = () => {
-    const usuarioLogado = false;
-    return (
-        <NavigationContainer>
-            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
-        </NavigationContainer>
-    );
+type IBuscarClientesProximosRequest = {
+    coord_latitude: number;
+    coord_longitude: number;
 };
 
-export default Routes;
+export interface IClienteRepository {
+    buscarClientePorCodigo: (
+        cli_codigo: number,
+    ) => Promise<ICliente | undefined>;
+    buscarClientePorNome: (cli_nome: string) => Promise<ICliente | undefined>;
+    retornarListaDeClientesPromixos: (
+        data: IBuscarClientesProximosRequest,
+    ) => Promise<ICliente[]>;
+}

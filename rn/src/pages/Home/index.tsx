@@ -1,141 +1,74 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Image, Alert, ToastAndroid} from 'react-native';
-import ProfilePNG from '../../../assets/profile.png';
-import {Button} from 'react-native-paper';
+import {Animated, Easing} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useDarkMode} from 'react-native-dark-mode';
 
 import {
     Container,
-    ContainerProfile,
-    TextOfUser,
     ContainerBottom,
-    ContainerLogin,
+    ButtonOfContainer,
+    TextOfButton,
 } from './styles';
 
-const Usuario: React.FC = () => {
-    return (
-        <ContainerProfile>
-            <Image
-                source={ProfilePNG}
-                resizeMode="center"
-                style={{
-                    width: 50,
-                    height: 50,
-                    marginLeft: 15,
-                }}
-            />
-            <View
-                style={{
-                    marginLeft: 5,
-                }}>
-                <TextOfUser type="title">Joãozin Fake Da Silva</TextOfUser>
-                <TextOfUser type="normal">Coimbra Eletro PVH - 1</TextOfUser>
-            </View>
-        </ContainerProfile>
-    );
-};
-
-const ButtonInferior: React.FC = () => {
-    const {navigate} = useNavigation();
-    return (
-        <ContainerBottom>
-            <Usuario />
-            <ContainerLogin>
-                <Button
-                    mode="contained"
-                    dark={true}
-                    onPress={() => {
-                        navigate('Login');
-                    }}
-                    style={{
-                        backgroundColor: '#fff',
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        width: '40%',
-                        borderRadius: 10,
-                        minHeight: 50,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                    labelStyle={{
-                        color: 'black',
-                        fontWeight: 'bold',
-                        letterSpacing: 1,
-                    }}>
-                    Entrar
-                </Button>
-                <Button
-                    mode="contained"
-                    onPress={() => {
-                        Alert.alert(
-                            'Certeza?',
-                            'Deseja apagar este perfil deste celular?',
-                            [
-                                {
-                                    text: 'SIM',
-                                    onPress: () =>
-                                        ToastAndroid.showWithGravity(
-                                            'saindo......',
-                                            ToastAndroid.SHORT,
-                                            ToastAndroid.BOTTOM,
-                                        ),
-                                },
-                                {
-                                    text: 'NÃO',
-                                    onPress: () =>
-                                        ToastAndroid.showWithGravity(
-                                            'ok',
-                                            ToastAndroid.SHORT,
-                                            ToastAndroid.BOTTOM,
-                                        ),
-                                },
-                            ],
-                        );
-                    }}
-                    style={{
-                        backgroundColor: '#000',
-                        width: '40%',
-                        borderRadius: 10,
-                        minHeight: 50,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                    labelStyle={{
-                        fontWeight: 'bold',
-                        color: 'white',
-                    }}>
-                    Sair
-                </Button>
-            </ContainerLogin>
-        </ContainerBottom>
-    );
-};
-
 const Home: React.FC = () => {
-    const isDarkMode = useDarkMode();
+    const bouncAnimation = React.useRef(new Animated.Value(0)).current;
+    const {navigate} = useNavigation();
 
-    const Logo = React.useMemo(() => {
-        if (!isDarkMode) {
-            return (
-                <Image
-                    source={require('../../../assets/logoDCoimbra/logoDCoimbraLight.png')}
-                />
-            );
-        }
-        return (
-            <Image
-                source={require('../../../assets/logoDCoimbra/logoDCoimbraDark.png')}
-            />
-        );
-    }, [isDarkMode]);
+    const size = React.useMemo(() => {
+        return bouncAnimation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 350],
+        });
+    }, [bouncAnimation]);
+
+    const fadeIn = React.useCallback(() => {
+        bouncAnimation.setValue(0);
+        Animated.timing(bouncAnimation, {
+            toValue: 1,
+            duration: 320,
+            useNativeDriver: false,
+            easing: Easing.ease,
+        }).start();
+    }, [bouncAnimation]);
+
+    const handleButtonNavigation = React.useCallback(
+        (page: string) => {
+            navigate(page);
+        },
+        [navigate],
+    );
+
+    React.useEffect(() => {
+        fadeIn();
+    }, [fadeIn]);
 
     return (
         <Container>
-            {Logo}
-            <ButtonInferior />
+            <Animated.Image
+                source={require('../../../assets/logoDCoimbra/logoDCoimbraLight.png')}
+                resizeMode="center"
+                style={{
+                    opacity: bouncAnimation,
+                    width: size,
+                    height: size,
+                }}
+            />
+            <ContainerBottom>
+                <ButtonOfContainer
+                    onPress={() => handleButtonNavigation('login')}
+                    style={{
+                        elevation: 3,
+                    }}>
+                    <TextOfButton>Entrar</TextOfButton>
+                </ButtonOfContainer>
+                <ButtonOfContainer
+                    onPress={() => handleButtonNavigation('signup')}
+                    style={{
+                        elevation: 3,
+                    }}
+                    background="black">
+                    <TextOfButton background="black">Registrar</TextOfButton>
+                </ButtonOfContainer>
+            </ContainerBottom>
         </Container>
     );
 };

@@ -11,19 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import {IProduto} from './IProduto';
 
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import RotasIniciais from './InitialRoutes';
-import AuthRoutes from './AuthRoutes';
-
-const Routes: React.FC = () => {
-    const usuarioLogado = false;
-    return (
-        <NavigationContainer>
-            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
-        </NavigationContainer>
-    );
-};
-
-export default Routes;
+export interface IProdutoRepository {
+    cadastrarProduto: (produto: IProduto) => Promise<IProduto>;
+    buscarProduto: (produtoCdogio: number) => Promise<IProduto | undefined>;
+    reservarQuantidade: (
+        produtoCdogio: number,
+        quantidade: number,
+    ) => Promise<IProduto>;
+}

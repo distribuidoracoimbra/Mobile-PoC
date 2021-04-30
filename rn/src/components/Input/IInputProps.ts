@@ -1,4 +1,5 @@
 import {TextInputProps} from 'react-native';
+// import {MaterialIcons} from '@expo/vector-icons';
 
 export interface IInputProps extends TextInputProps {
     icon?: string;
