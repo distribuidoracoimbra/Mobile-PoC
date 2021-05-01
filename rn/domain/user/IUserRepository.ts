@@ -13,8 +13,21 @@
 // limitations under the License.
 import {IUser} from './IUser';
 
+export type IRequestUpdateUsuario = {
+    email?: string;
+    password?: string;
+};
+
 export interface IUserRepository {
-    cadastrarUsuario: (produto: Omit<IUser, 'user_codigo'>) => Promise<IUser>;
-    buscarProdutoPorId: (produtoCdogio: number) => Promise<IUser | undefined>;
-    atualizarUsuario: (usuario: IUser) => Promise<IUser>;
+    cadastrarUsuario: (
+        user: Omit<IUser, 'user_id'>,
+    ) => Promise<Omit<IUser, 'user_password'>>;
+
+    buscarProdutoPorEmail: (
+        userEmail: string,
+    ) => Promise<Omit<IUser, 'user_password'> | undefined>;
+
+    atualizarUsuario: (
+        usuario: IRequestUpdateUsuario,
+    ) => Promise<Omit<IUser, 'user_password'>>;
 }

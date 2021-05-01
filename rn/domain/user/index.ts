@@ -1,5 +1,6 @@
 import {IUser} from './IUser';
 import {IUserRepository} from './IUserRepository';
+export * from './IUserRepository';
 export * from './uses-cases';
 
 namespace IUser {

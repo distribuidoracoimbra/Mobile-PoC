@@ -14,9 +14,11 @@
 
 import React from 'react';
 import Input from '../../../components/Input';
-import {ScrollView, ToastAndroid} from 'react-native';
+import {ScrollView, ToastAndroid, Alert, Platform} from 'react-native';
 import {IInputActions} from '../../../components/Input/IInputProps';
-import Auth from '@react-native-firebase/auth';
+import {} from '../../../components/Toast';
+import ValidationError from '../../../utils/erros/ValidationError';
+import {useAuth} from '../../../hooks/auth';
 
 import {
     ContainerGeral,
@@ -31,6 +33,11 @@ import {
     ButtonText,
 } from '../Login/styles';
 
+const Toast = Platform.select({
+    android: require('../../../components/Toast/index.android'),
+    ios: require('../../../components/Toast/index.ios'),
+})();
+
 const Login: React.FC = () => {
     const nomeRef = React.useRef<IInputActions>(null);
     const emailRef = React.useRef<IInputActions>(null);
@@ -43,6 +50,8 @@ const Login: React.FC = () => {
     const [confirmPasswordError, setConfirmPasswordError] = React.useState(
         false,
     );
+
+    const {registrar} = useAuth();
 
     const regEmail = React.useMemo(
         () =>
@@ -84,9 +93,13 @@ const Login: React.FC = () => {
         setConfirmPasswordError(!confirmPass);
     }, []);
 
-    const toastError = React.useCallback(() => {
+    const alertError = React.useCallback((e: string) => {
+        Alert.alert('Ocorreu um erro !', e);
+    }, []);
+
+    const toastError = React.useCallback((e?: string) => {
         ToastAndroid.showWithGravity(
-            'Ocorreu um erro ao registrar-se',
+            e ? e : 'Ocorreu um erro ao registrar-se',
             ToastAndroid.SHORT,
             ToastAndroid.BOTTOM,
         );
@@ -101,7 +114,6 @@ const Login: React.FC = () => {
     }, []);
 
     const handleAuthentication = React.useCallback(async () => {
-        console.log('indu');
         const email = emailRef.current!.value;
         const password = passwordRef.current!.value;
         const nome = nomeRef.current!.value;
@@ -120,30 +132,26 @@ const Login: React.FC = () => {
             password.length < 6 ||
             confirmPassWord !== password
         ) {
-            console.log('foi n');
+            Toast();
             return;
         }
 
         try {
-            const teste = await Auth().createUserWithEmailAndPassword(
+            await registrar({
                 email,
                 password,
-            );
+            });
+
             toastSucess();
-            console.log('usuario registrado! - ', teste.user);
         } catch (error) {
-            if (error.code === 'auth/email-already-in-use') {
-                console.log('That email address is already in use!');
+            if (error as ValidationError) {
+                alertError((error as ValidationError).message);
+                return;
             }
-
-            if (error.code === 'auth/invalid-email') {
-                console.log('That email address is invalid!');
-            }
-
+            alertError(`Erro inesperado - ${error.message}`);
             console.error(error);
-            toastError();
         }
-    }, [toastError, toastSucess]);
+    }, [alertError, registrar, toastError, toastSucess]);
 
     return (
         <ContainerGeral>

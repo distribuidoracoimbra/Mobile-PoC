@@ -1,4 +1,4 @@
-import UserNamespace, {ILogin, ILogOut} from '../../../domain/user';
+import UserNamespace, {ILogin, ILogOut, ISignIn} from '../../../domain/user';
 
 export type IUser = UserNamespace.User_intf;
 
@@ -7,4 +7,5 @@ export interface AuthContextData {
     loading: boolean;
     entrar: ILogin.login;
     sair: ILogOut.logOut;
+    registrar: ISignIn.signIn;
 }

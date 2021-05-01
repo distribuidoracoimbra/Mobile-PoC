@@ -16,6 +16,7 @@ import React from 'react';
 import Input from '../../../components/Input';
 import {IInputActions} from '../../../components/Input/IInputProps';
 import Auth from '@react-native-firebase/auth';
+import {useAuth} from '../../../hooks/auth';
 
 import {
     ContainerGeral,
@@ -38,6 +39,7 @@ const Login: React.FC = () => {
     const [passWord, setPassword] = React.useState('');
     const [emailError, setEmailError] = React.useState(false);
     const [passwordError, setPasswordError] = React.useState(false);
+    const {entrar} = useAuth();
 
     const regEmail = React.useMemo(
         () =>
@@ -76,11 +78,10 @@ const Login: React.FC = () => {
     const handleLogin = React.useCallback(async () => {
         console.log('inicio');
         try {
-            const test = await Auth().signInWithEmailAndPassword(
-                'delfio2@gmail.com',
-                '123456',
-            );
-            console.log('login - ', test.user);
+            await entrar({
+                user_email: email,
+                user_password: passWord,
+            });
         } catch (error) {
             console.error('erro - ', error.message);
         }
