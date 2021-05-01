@@ -1,7 +1,7 @@
 import React from 'react';
 import {IInputProps, IInputActions} from './IInputProps';
 import {Container, InputText} from './styles';
-import {MaterialIcons} from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SystemInput: React.ForwardRefRenderFunction<
     IInputActions,
