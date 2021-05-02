@@ -1,7 +1,7 @@
 import React from 'react';
 import {AuthContextData, IUser} from './IAuth';
 import FirebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import {ILogin, ILogOut} from '../../../domain/user';
+import {ILogin, ILogOut, ISignIn} from '../../../domain/user';
 
 // import { Container } from './styles';
 
@@ -14,19 +14,23 @@ const AuthProvider: React.FC = ({children}) => {
 
     const entrar: ILogin.login = React.useCallback(
         async (data: ILogin.Request): Promise<ILogin.Result> => {
-            setLoading(true);
             const {user_email, user_password} = data;
-            const auth = await AuthFirebaseProvider.signInWithEmailAndPassword(
-                user_email,
-                user_password,
-            );
+            setLoading(true);
 
-            setUserData({
-                user_id: auth.additionalUserInfo!.providerId,
-                user_email,
-                user_password,
-            });
-            setLoading(false);
+            try {
+                const auth = await AuthFirebaseProvider.signInWithEmailAndPassword(
+                    user_email,
+                    user_password,
+                );
+
+                setUserData({
+                    user_id: auth.additionalUserInfo!.providerId,
+                    user_email,
+                    user_password,
+                });
+            } finally {
+                setLoading(false);
+            }
         },
         [AuthFirebaseProvider],
     );
@@ -47,13 +51,36 @@ const AuthProvider: React.FC = ({children}) => {
                 setUserData((oldData) => ({
                     ...oldData,
                     user_email: data.email as string,
-                    user_id: data.providerId,
+                    user_id: data.uid,
                 }));
             }
 
             setLoading(false);
         },
         [],
+    );
+
+    const registrar: ISignIn.signIn = React.useCallback(
+        async (user: ISignIn.Request): ISignIn.Result => {
+            const {email, password} = user;
+            setLoading(true);
+
+            try {
+                const userCredentials = await AuthFirebaseProvider.createUserWithEmailAndPassword(
+                    email,
+                    password,
+                );
+
+                setUserData({
+                    user_email: email,
+                    user_id: userCredentials.user.uid,
+                    user_password: password,
+                });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [AuthFirebaseProvider],
     );
 
     React.useEffect(() => {
@@ -71,6 +98,7 @@ const AuthProvider: React.FC = ({children}) => {
                 loading,
                 sair,
                 user: userData,
+                registrar,
             }}>
             {children}
         </AuthContext.Provider>

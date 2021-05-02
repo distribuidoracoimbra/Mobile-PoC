@@ -1,14 +1,9 @@
-import {ReactNode} from 'react';
-
+import React from 'react';
 import {Text} from 'react-native';
 
 import {Container} from './styles';
 
-interface DashboardProps {
-    children: ReactNode;
-}
-
-export const Dashboard = ({children}: DashboardProps) => {
+export const Dashboard: React.FC = ({children}) => {
     return (
         <Container>
             <Text>Dashboard</Text>

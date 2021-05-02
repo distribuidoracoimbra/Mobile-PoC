@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import {IProduto} from './IProduto';
+import {IProdutosPaginacao} from './uses-cases/paginacao';
 
 export interface IProdutoRepository {
     cadastrarProduto: (produto: IProduto) => Promise<IProduto>;
+    buscarPaginacao: (
+        paginacao: IProdutosPaginacao.Request,
+    ) => Promise<IProduto[]>;
     buscarProduto: (produtoCdogio: number) => Promise<IProduto | undefined>;
     reservarQuantidade: (
         produtoCdogio: number,

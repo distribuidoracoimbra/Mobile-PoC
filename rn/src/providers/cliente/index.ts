@@ -1,13 +1,13 @@
 import Axios, {AxiosInstance} from 'axios';
 
-import ProdutoNamespace from '../../../../domain/cliente';
+import ProdutoNamespace from '../../../domain/cliente';
 
 /**
  * https://dcoimbra-mobile.herokuapp.com/clientes?all=true
  * https://dcoimbra-mobile.herokuapp.com/produtos?limit=20
  */
 
-export class ClienteProviderAxiosAdapter
+export class ClienteProviderAdapter
     implements ProdutoNamespace.ClienteRepository_intf {
     private baseURL: AxiosInstance;
     constructor() {

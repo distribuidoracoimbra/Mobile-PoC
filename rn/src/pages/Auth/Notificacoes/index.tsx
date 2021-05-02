@@ -69,7 +69,7 @@ const ListItemOfNotification: React.FC<ListItemProps> = ({data, onDelete}) => {
     );
 };
 
-const Notification: React.FC = () => {
+export const Notificacoes: React.FC = () => {
     const [notifcations, setNotifications] = React.useState<
         INotificationsData[]
     >(() => data);
@@ -107,7 +107,7 @@ const Notification: React.FC = () => {
                         style={{
                             display: 'flex',
                         }}
-                        source={require('../../../../assets/animation/rocket-dog.json')}
+                        source={require('./rocket-dog.json')}
                     />
                     <Text
                         style={{
@@ -141,5 +141,3 @@ const Notification: React.FC = () => {
         </Container>
     );
 };
-
-export default Notification;

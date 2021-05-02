@@ -1,6 +1,6 @@
 import Axios, {AxiosInstance} from 'axios';
 import FirebaseStorage from '@react-native-firebase/firestore';
-import ProdutoNamespace from '../../../../domain/produto';
+import ProdutoNamespace, {IProdutosPaginacao} from '../../../domain/produto';
 
 /**
  * https://dcoimbra-mobile.herokuapp.com/clientes?all=true
@@ -14,7 +14,7 @@ export class ProdutoProviderAxiosAdapter
     constructor() {
         this.firebaseStorage = FirebaseStorage();
         this.baseURL = Axios.create({
-            baseURL: 'https://dcoimbra-mobile.herokuapp.com/produtos',
+            baseURL: 'https://dcoimbra-mobile.herokuapp.com',
             timeout: 3500,
         });
     }
@@ -43,5 +43,22 @@ export class ProdutoProviderAxiosAdapter
         _quantidade: number,
     ): Promise<ProdutoNamespace.Produto_inf> {
         return {} as ProdutoNamespace.Produto_inf;
+    }
+
+    async buscarPaginacao(
+        paginacao: IProdutosPaginacao.Request,
+    ): Promise<IProduto[]> {
+        const {from, to} = paginacao;
+        if (from <= to) {
+            throw new Error('Paginação inválida !');
+        }
+        const productsDocuments = await this.firebaseStorage
+            .collection('produtos')
+            .orderBy('pro_codigo')
+            .startAt(from)
+            .endAt(to)
+            .get();
+
+        return productsDocuments.docs;
     }
 }

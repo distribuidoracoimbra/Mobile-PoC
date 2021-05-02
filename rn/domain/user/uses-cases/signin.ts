@@ -5,6 +5,6 @@ type ISignInRequest = {
 
 export namespace ISignIn {
     export type Request = ISignInRequest;
-    export type Result = boolean;
-    export type signIn = (data: Request) => Promise<Result>;
+    export type Result = Promise<void>;
+    export type signIn = (data: Request) => Result;
 }

@@ -7,6 +7,7 @@ import ProdutoNamespace, {
 export type IProduto = ProdutoNamespace.Produto_inf;
 
 export interface ProdutoContextData {
+    produtos: ProdutoNamespace.Produto_inf[];
     atualizarEstoque: IAtualizarEstoqueDoProduto.atualizarEstoque;
     loading: boolean;
     deletarProduto: IDeletarProduto.deletar;

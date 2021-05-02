@@ -1,14 +1,10 @@
-import {ReactNode} from 'react';
+import React from 'react';
 
 import {Text} from 'react-native';
 
 import {Container} from './styles';
 
-interface ClientesProps {
-    children: ReactNode;
-}
-
-export const Clientes = ({children}: ClientesProps) => {
+export const Clientes: React.FC = ({children}) => {
     return (
         <Container>
             <Text>Clientes</Text>

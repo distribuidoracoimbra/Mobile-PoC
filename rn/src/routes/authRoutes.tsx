@@ -14,6 +14,7 @@
 
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
     Clientes,
     Dashboard,
@@ -27,12 +28,77 @@ const AuthStack = createMaterialBottomTabNavigator();
 
 const AuthRoutes: React.FC = () => {
     return (
-        <AuthStack.Navigator>
-            <AuthStack.Screen component={Dashboard} name="Dashboard" />
-            <AuthStack.Screen component={Clientes} name="Clientes" />
-            <AuthStack.Screen component={Notificacoes} name="Notificacoes" />
-            <AuthStack.Screen component={Pedidos} name="Pedidos" />
-            <AuthStack.Screen component={Produtos} name="Produtos" />
+        <AuthStack.Navigator
+            initialRouteName="Dashboard"
+            activeColor="#fff"
+            inactiveColor="#AFAFAF"
+            barStyle={{backgroundColor: '#0F0F13'}}>
+            <AuthStack.Screen
+                component={Clientes}
+                name="Clientes"
+                options={{
+                    tabBarLabel: 'Clientes',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcon
+                            size={24}
+                            color={color}
+                            name="contact_page"
+                        />
+                    ),
+                }}
+            />
+            <AuthStack.Screen
+                component={Notificacoes}
+                name="Notificacoes"
+                options={{
+                    tabBarLabel: 'Notificações',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcon
+                            size={24}
+                            color={color}
+                            name="notifications_active"
+                        />
+                    ),
+                }}
+            />
+            <AuthStack.Screen
+                component={Dashboard}
+                name="Dashboard"
+                options={{
+                    tabBarLabel: 'Perfil',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcon
+                            size={24}
+                            color={color}
+                            name="dashboard_customize"
+                        />
+                    ),
+                }}
+            />
+            <AuthStack.Screen
+                component={Pedidos}
+                name="Pedidos"
+                options={{
+                    tabBarLabel: 'Perfil',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcon
+                            size={24}
+                            color={color}
+                            name="shopping_cart"
+                        />
+                    ),
+                }}
+            />
+            <AuthStack.Screen
+                component={Produtos}
+                name="Produtos"
+                options={{
+                    tabBarLabel: 'Perfil',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcon size={24} color={color} name="list" />
+                    ),
+                }}
+            />
         </AuthStack.Navigator>
     );
 };

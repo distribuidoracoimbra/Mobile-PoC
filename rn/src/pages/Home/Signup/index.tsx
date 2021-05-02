@@ -14,10 +14,9 @@
 
 import React from 'react';
 import Input from '../../../components/Input';
-import {ScrollView, ToastAndroid, Alert, Platform} from 'react-native';
+import {ActivityIndicator, ScrollView, ToastAndroid} from 'react-native';
 import {IInputActions} from '../../../components/Input/IInputProps';
-import {} from '../../../components/Toast';
-import ValidationError from '../../../utils/erros/ValidationError';
+import Toast from '../../../components/Toast/index.android';
 import {useAuth} from '../../../hooks/auth';
 
 import {
@@ -33,11 +32,6 @@ import {
     ButtonText,
 } from '../Login/styles';
 
-const Toast = Platform.select({
-    android: require('../../../components/Toast/index.android'),
-    ios: require('../../../components/Toast/index.ios'),
-})();
-
 const Login: React.FC = () => {
     const nomeRef = React.useRef<IInputActions>(null);
     const emailRef = React.useRef<IInputActions>(null);
@@ -51,7 +45,7 @@ const Login: React.FC = () => {
         false,
     );
 
-    const {registrar} = useAuth();
+    const {registrar, loading} = useAuth();
 
     const regEmail = React.useMemo(
         () =>
@@ -81,7 +75,7 @@ const Login: React.FC = () => {
         setPasswordError(false);
 
         const password = passwordRef.current!.value;
-        if (!password || password.length >= 6) {
+        if (!password || password.length < 6) {
             setPasswordError(true);
         }
     }, []);
@@ -91,26 +85,6 @@ const Login: React.FC = () => {
         const confirmPass = passwordConfirmationRef.current!.value;
         console.log(confirmPass);
         setConfirmPasswordError(!confirmPass);
-    }, []);
-
-    const alertError = React.useCallback((e: string) => {
-        Alert.alert('Ocorreu um erro !', e);
-    }, []);
-
-    const toastError = React.useCallback((e?: string) => {
-        ToastAndroid.showWithGravity(
-            e ? e : 'Ocorreu um erro ao registrar-se',
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-        );
-    }, []);
-
-    const toastSucess = React.useCallback(() => {
-        ToastAndroid.showWithGravity(
-            'Usuário registrado com sucesso !',
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-        );
     }, []);
 
     const handleAuthentication = React.useCallback(async () => {
@@ -132,7 +106,6 @@ const Login: React.FC = () => {
             password.length < 6 ||
             confirmPassWord !== password
         ) {
-            Toast();
             return;
         }
 
@@ -142,96 +115,146 @@ const Login: React.FC = () => {
                 password,
             });
 
-            toastSucess();
+            ToastAndroid.showWithGravity(
+                'Usuário registrado com sucesso !',
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM,
+            );
         } catch (error) {
-            if (error as ValidationError) {
-                alertError((error as ValidationError).message);
+            if (error.code) {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        ToastAndroid.showWithGravity(
+                            'E-mail já em uso !',
+                            ToastAndroid.SHORT,
+                            ToastAndroid.BOTTOM,
+                        );
+                        break;
+                    default:
+                        ToastAndroid.showWithGravity(
+                            `Ocorreu um erro ao tentar registrar o usuário - ${error.message} !`,
+                            ToastAndroid.SHORT,
+                            ToastAndroid.BOTTOM,
+                        );
+                        break;
+                }
+            } else {
+                Toast({
+                    message: 'Erro inesperado, Por favor tente mais tarde !',
+                    type: 'error',
+                });
+
                 return;
             }
-            alertError(`Erro inesperado - ${error.message}`);
-            console.error(error);
+            console.log(error.code);
+            console.error('erro - ', error.message);
         }
-    }, [alertError, registrar, toastError, toastSucess]);
+    }, [registrar]);
+
+    const ContainerRegistrar = React.useMemo(
+        () => (
+            <React.Fragment>
+                <ScrollView
+                    contentContainerStyle={{
+                        flex: 1,
+                    }}>
+                    <Container>
+                        <ContainerText>
+                            <TextPrincipal>
+                                Sera um prazer ter você conosco!
+                            </TextPrincipal>
+                            <TextSecundario>
+                                Por favor, informe suas informações
+                            </TextSecundario>
+                        </ContainerText>
+                        <ContainerInput>
+                            <InputContainer>
+                                <Input
+                                    error={nameError}
+                                    ref={nomeRef}
+                                    onBlur={() => handleNameBlur()}
+                                    name="Nome"
+                                    icon="person"
+                                    type="dark"
+                                    returnKeyType="next"
+                                    onSubmitEditing={() =>
+                                        emailRef.current?.focus()
+                                    }
+                                />
+                            </InputContainer>
+                            <InputContainer>
+                                <Input
+                                    error={emailError}
+                                    ref={emailRef}
+                                    onBlur={() => handleEmailBlur()}
+                                    name="E-mail"
+                                    icon="mail"
+                                    autoCompleteType="email"
+                                    keyboardType="email-address"
+                                    onSubmitEditing={() =>
+                                        passwordRef.current?.focus()
+                                    }
+                                    type="dark"
+                                />
+                            </InputContainer>
+                            <InputContainer>
+                                <Input
+                                    error={passwordError}
+                                    ref={passwordRef}
+                                    onBlur={() => handlePasswordBlur()}
+                                    name="Senha"
+                                    secureTextEntry
+                                    icon="lock"
+                                    onSubmitEditing={() =>
+                                        passwordConfirmationRef.current?.focus()
+                                    }
+                                    type="dark"
+                                />
+                            </InputContainer>
+                            <InputContainer>
+                                <Input
+                                    error={confirmPasswordError}
+                                    ref={passwordConfirmationRef}
+                                    onBlur={() =>
+                                        handleConfirmationPasswordBlur()
+                                    }
+                                    name="Confirmar senha"
+                                    secureTextEntry
+                                    icon="lock"
+                                    type="dark"
+                                    onSubmitEditing={handleAuthentication}
+                                />
+                            </InputContainer>
+                        </ContainerInput>
+                        <ContainerButton>
+                            <ButtonLogin onPress={handleAuthentication}>
+                                <ButtonText>Registrar</ButtonText>
+                            </ButtonLogin>
+                        </ContainerButton>
+                    </Container>
+                </ScrollView>
+            </React.Fragment>
+        ),
+        [
+            confirmPasswordError,
+            emailError,
+            handleAuthentication,
+            handleConfirmationPasswordBlur,
+            handleEmailBlur,
+            handleNameBlur,
+            handlePasswordBlur,
+            nameError,
+            passwordError,
+        ],
+    );
 
     return (
         <ContainerGeral>
-            <ScrollView
-                contentContainerStyle={{
-                    flex: 1,
-                }}>
-                <Container>
-                    <ContainerText>
-                        <TextPrincipal>
-                            Sera um prazer ter você conosco!
-                        </TextPrincipal>
-                        <TextSecundario>
-                            Por favor, informe suas informações
-                        </TextSecundario>
-                    </ContainerText>
-                    <ContainerInput>
-                        <InputContainer>
-                            <Input
-                                error={nameError}
-                                ref={nomeRef}
-                                onBlur={() => handleNameBlur()}
-                                name="Nome"
-                                icon="person"
-                                type="dark"
-                                returnKeyType="next"
-                                onSubmitEditing={() =>
-                                    emailRef.current?.focus()
-                                }
-                            />
-                        </InputContainer>
-                        <InputContainer>
-                            <Input
-                                error={emailError}
-                                ref={emailRef}
-                                onBlur={() => handleEmailBlur()}
-                                name="E-mail"
-                                icon="mail"
-                                autoCompleteType="email"
-                                keyboardType="email-address"
-                                onSubmitEditing={() =>
-                                    passwordRef.current?.focus()
-                                }
-                                type="dark"
-                            />
-                        </InputContainer>
-                        <InputContainer>
-                            <Input
-                                error={passwordError}
-                                ref={passwordRef}
-                                onBlur={() => handlePasswordBlur()}
-                                name="Senha"
-                                secureTextEntry
-                                icon="lock"
-                                onSubmitEditing={() =>
-                                    passwordConfirmationRef.current?.focus()
-                                }
-                                type="dark"
-                            />
-                        </InputContainer>
-                        <InputContainer>
-                            <Input
-                                error={confirmPasswordError}
-                                ref={passwordConfirmationRef}
-                                onBlur={() => handleConfirmationPasswordBlur()}
-                                name="Confirmar senha"
-                                secureTextEntry
-                                icon="lock"
-                                type="dark"
-                                onSubmitEditing={handleAuthentication}
-                            />
-                        </InputContainer>
-                    </ContainerInput>
-                    <ContainerButton>
-                        <ButtonLogin onPress={handleAuthentication}>
-                            <ButtonText>Registrar</ButtonText>
-                        </ButtonLogin>
-                    </ContainerButton>
-                </Container>
-            </ScrollView>
+            {loading ? (
+                <ActivityIndicator color="grey" size={75} />
+            ) : (
+                ContainerRegistrar
+            )}
         </ContainerGeral>
     );
 };

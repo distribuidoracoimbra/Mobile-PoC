@@ -1,10 +1,11 @@
 import React from 'react';
-import {ProdutoContextData} from './IPedidos';
-import {
+import {ProdutoContextData} from './IProduto';
+import IProduto, {
     IAtualizarEstoqueDoProduto,
     IDeletarProduto,
     IProdutosPaginacao,
 } from '../../../domain/produto';
+import Api from '../../utils/api/AxiosAdapter';
 
 const ProdutoContext = React.createContext<ProdutoContextData>(
     {} as ProdutoContextData,
@@ -14,8 +15,15 @@ const ProdutoProvider: React.FC = ({children}) => {
     const [
         _paginacao,
         _setPaginacao,
-    ] = React.useState<IProdutosPaginacao.Request>();
+    ] = React.useState<IProdutosPaginacao.Request>({
+        from: 50,
+        to: 100,
+    });
+
     const [_loading, _setLoading] = React.useState<boolean>(false);
+    const [_produtos, _setProdutos] = React.useState<IProduto.Produto_inf[]>(
+        [],
+    );
 
     const paginacao: IProdutosPaginacao.paginacao = React.useCallback(
         async (data: IProdutosPaginacao.Request): IProdutosPaginacao.Result => {
@@ -49,6 +57,21 @@ const ProdutoProvider: React.FC = ({children}) => {
         async (_data: IDeletarProduto.Request): IDeletarProduto.Result => {},
         [],
     );
+
+    React.useEffect(() => {
+        _setLoading(true);
+        Api.get<IProduto.Produto_inf[]>(
+            `https://dcoimbra-mobile.herokuapp.com/produtos?limit=${_paginacao}`,
+        )
+            .then((produtos) => {
+                _setProdutos(produtos.data);
+                _setLoading(false);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }, [_paginacao]);
+
     return (
         <ProdutoContext.Provider
             value={{
@@ -56,6 +79,7 @@ const ProdutoProvider: React.FC = ({children}) => {
                 deletarProduto,
                 loading: _loading,
                 paginacao,
+                produtos: _produtos,
             }}>
             {children}
         </ProdutoContext.Provider>

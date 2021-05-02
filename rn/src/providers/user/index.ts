@@ -1,4 +1,4 @@
-import IUserNamespace, {IRequestUpdateUsuario} from '../../../../domain/user';
+import IUserNamespace, {IRequestUpdateUsuario} from '../../../domain/user';
 import FirebaseAuth from '@react-native-firebase/auth';
 
 export class UserProviderFirebaseAdapter

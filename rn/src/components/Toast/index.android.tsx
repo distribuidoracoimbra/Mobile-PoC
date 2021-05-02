@@ -12,6 +12,7 @@ const Toast = ({message, type, time}: IToastProps) => {
                 : type === 'error'
                 ? 'Ocorreu um erro na operação !'
                 : 'Operacação realizada com sucesso !',
+
             time ? time : ToastAndroid.SHORT,
             ToastAndroid.BOTTOM,
         );

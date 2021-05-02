@@ -1,14 +1,10 @@
-import {ReactNode} from 'react';
+import React from 'react';
 
 import {Text} from 'react-native';
 
 import {Container} from './styles';
 
-interface ProdutosProps {
-    children: ReactNode;
-}
-
-export const Produtos = ({children}: ProdutosProps) => {
+export const Produtos: React.FC = ({children}) => {
     return (
         <Container>
             <Text>Produtos</Text>
