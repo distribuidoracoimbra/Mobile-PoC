@@ -11,7 +11,7 @@ namespace MyApp.Services
 {
     public class ContatoService
     {
-        FirebaseClient firebase = 
+        private readonly FirebaseClient firebase =
             new FirebaseClient("https://xamarinfirestoreapp-34f99-default-rtdb.firebaseio.com/");
 
         public async Task AddContato(int contatoId, string nome, string email)

@@ -65,6 +65,7 @@ namespace MyApp.ViewModels
         public Command LoginCommand { get; set; }
         public Command RegisterCommand { get; set; }
 
+        [Obsolete]
         public LoginViewModel()
         {
             LoginCommand = new Command(async () => await LoginCommandAsync());
@@ -98,6 +99,7 @@ namespace MyApp.ViewModels
             }
         }
 
+        [Obsolete]
         private async Task LoginCommandAsync()
         {
             if (IsBusy)
@@ -113,7 +115,7 @@ namespace MyApp.ViewModels
                 if (Result)
                 {
                     Preferences.Set("Username", Username);
-                    await Application.Current.MainPage.Navigation.PushAsync(new MyApp.MainPage());
+                    await Application.Current.MainPage.Navigation.PushAsync(new MainPage());
                 }
                 else
                 {

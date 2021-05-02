@@ -1,6 +1,7 @@
 ﻿using Firebase.Database;
 using MyApp.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,8 +9,18 @@ namespace MyApp.Services
 {
     public class ProdutosService
     {
-        FirebaseClient firebase =
+        private readonly FirebaseClient firebase =
             new FirebaseClient("https://xamarinfirestoreapp-34f99-default-rtdb.firebaseio.com/");
+
+        public ObservableCollection<Produto> GetProdutosObservable()
+        {
+            ObservableCollection<Produto> produtoData = firebase
+                .Child("Produtos")
+                .AsObservable<Produto>()
+                .AsObservableCollection();
+            return produtoData;
+        }
+
 
         public async Task<List<Produto>> GetProdutos()
         {
@@ -24,6 +35,7 @@ namespace MyApp.Services
                     Fotos = i.Object.Fotos
                 }).ToList();
         }
+
 
     }
 }

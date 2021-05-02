@@ -10,7 +10,7 @@ namespace MyApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ContatosView : ContentPage
     {
-        ContatoService contatoService = new ContatoService();
+        readonly ContatoService contatoService = new ContatoService();
         public ContatosView()
         {
             InitializeComponent();
@@ -22,7 +22,7 @@ namespace MyApp.Views
             await ExibeContatos();
         }
 
-        private async void btnIncluir_Clicked(object sender, EventArgs e)
+        private async void BtnIncluir_Clicked(object sender, EventArgs e)
         {
             await contatoService.AddContato(Convert.ToInt32(txtId.Text), txtNome.Text, txtEmail.Text);
 
@@ -41,7 +41,7 @@ namespace MyApp.Views
             listaContatos.ItemsSource = contatos;
         }
 
-        private async void btnExibir_Clicked(object sender, EventArgs e)
+        private async void BtnExibir_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtId.Text))
             {
@@ -71,7 +71,7 @@ namespace MyApp.Views
             }
         }
 
-        private async void btnAtualizar_Clicked(object sender, EventArgs e)
+        private async void BtnAtualizar_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtId.Text))
             {
@@ -99,7 +99,7 @@ namespace MyApp.Views
             }
         }
 
-        private async void btnDeletar_Clicked(object sender, EventArgs e)
+        private async void BtnDeletar_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtId.Text))
             {

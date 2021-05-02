@@ -8,22 +8,22 @@ namespace MyApp.ViewModels
 {
     public class ProdutosViewModel : BaseViewModel
     {
-        public ObservableCollection<Produto> ListaProdutos { get; set; }
+        private readonly ProdutosService services;
+        private ObservableCollection<Produto> _ListaProdutos = new ObservableCollection<Produto>();
+        public ObservableCollection<Produto> ListaProdutos
+        {
+            get => _ListaProdutos;
+            set
+            {
+                _ListaProdutos = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ProdutosViewModel()
         {
-            ListaProdutos = new ObservableCollection<Produto>();
-
-            List<string> parts = new List<string>();
-            parts.Add("https://image.shutterstock.com/image-photo/fresh-tasty-burger-isolated-on-260nw-705104968.jpg");
-            ListaProdutos.Add(new Produto
-            {
-                ProdutoID = 1,
-                Descricao = "Cheese Burger Completo",
-                Estoque = 0,
-                Valor = 100,
-                Fotos = parts
-            });
+            services = new ProdutosService();
+            ListaProdutos =services.GetProdutosObservable();
         }
     }   
 }

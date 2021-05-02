@@ -20,18 +20,18 @@
                 <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                     <Button x:Name="btnIncluir" WidthRequest="200" Text="Incluir"
                             BackgroundColor="Aqua"
-                            Clicked="btnIncluir_Clicked"/>
+                            Clicked="BtnIncluir_Clicked"/>
                     <Button x:Name="btnExibir" WidthRequest="200" Text="Exibir"
                             BackgroundColor="Gainsboro"
-                            Clicked="btnExibir_Clicked"/>
+                            Clicked="BtnExibir_Clicked"/>
                 </StackLayout>
                 <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
                     <Button x:Name="btnAtualizar" WidthRequest="200" Text="Atualizar"
                             BackgroundColor="YellowGreen"
-                            Clicked="btnAtualizar_Clicked"/>
+                            Clicked="BtnAtualizar_Clicked"/>
                     <Button x:Name="btnDeletar" WidthRequest="200" Text="Deletar"
                             BackgroundColor="Salmon"
-                            Clicked="btnDeletar_Clicked"/>
+                            Clicked="BtnDeletar_Clicked"/>
                 </StackLayout>
 
                 <CollectionView x:Name="listaContatos" BackgroundColor="AntiqueWhite">
