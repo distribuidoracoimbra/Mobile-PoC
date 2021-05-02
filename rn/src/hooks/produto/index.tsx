@@ -51,6 +51,13 @@ const ProdutoProvider: React.FC = ({children}) => {
         }));
     }, []);
 
+    const reset = React.useCallback(() => {
+        _setPaginacao({
+            from: 0,
+            to: 50,
+        });
+    }, []);
+
     React.useEffect(() => {
         _setLoading(true);
         Api.get(
@@ -94,6 +101,7 @@ const ProdutoProvider: React.FC = ({children}) => {
                 paginacao: _paginacao,
                 produtos: _produtos,
                 atualizarPaginacao,
+                reset,
             }}>
             {children}
         </ProdutoContext.Provider>

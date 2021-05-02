@@ -8,16 +8,14 @@ import RowProduto from './RowProduto';
 import {Container} from './styles';
 
 export const Produtos: React.FC = () => {
-    const {produtos, atualizarPaginacao, paginacao} = useProduto();
+    const {produtos, atualizarPaginacao, paginacao, reset} = useProduto();
     const [_refresing, _setRefresing] = React.useState(false);
 
     const handleRefresh = React.useCallback(() => {
         _setRefresing(true);
-
-        console.log('carregando.....');
-
+        reset();
         _setRefresing(false);
-    }, []);
+    }, [reset]);
 
     React.useEffect(() => {
         console.log(produtos.length);
