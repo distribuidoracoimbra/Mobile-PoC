@@ -13,18 +13,33 @@
 // limitations under the License.
 
 import React from 'react';
+import {View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RotasIniciais from './InitialRoutes';
-// import AuthRoutes from './AuthRoutes';
+import AuthRoutes from './AuthRoutes';
 import {useAuth} from '../hooks/auth';
 
 const Routes: React.FC = () => {
-    const {user} = useAuth();
-    // const usuarioLogado = !!user.user_id;
-    console.log(`usuário ${user.user_email}`);
+    const {user, loading} = useAuth();
+
+    const usuarioLogado = !!user.user_id;
+
+    if (loading) {
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                <ActivityIndicator size={37} color="blue" />
+            </View>
+        );
+    }
+
     return (
         <NavigationContainer>
-            <RotasIniciais />
+            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
         </NavigationContainer>
     );
 };

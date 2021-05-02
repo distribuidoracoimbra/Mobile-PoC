@@ -111,8 +111,9 @@ const Login: React.FC = () => {
 
         try {
             await registrar({
-                email,
-                password,
+                user_email: email,
+                user_password: password,
+                user_nome: nome,
             });
 
             ToastAndroid.showWithGravity(
@@ -120,6 +121,8 @@ const Login: React.FC = () => {
                 ToastAndroid.SHORT,
                 ToastAndroid.BOTTOM,
             );
+
+            return;
         } catch (error) {
             if (error.code) {
                 switch (error.code) {

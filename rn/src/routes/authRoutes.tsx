@@ -14,7 +14,7 @@
 
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
     Clientes,
     Dashboard,
@@ -42,21 +42,22 @@ const AuthRoutes: React.FC = () => {
                         <MaterialIcon
                             size={24}
                             color={color}
-                            name="contact_page"
+                            name="contact-page"
                         />
                     ),
                 }}
             />
+
             <AuthStack.Screen
-                component={Notificacoes}
-                name="Notificacoes"
+                component={Pedidos}
+                name="Pedidos"
                 options={{
-                    tabBarLabel: 'Notificações',
+                    tabBarLabel: 'Perfil',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}
                             color={color}
-                            name="notifications_active"
+                            name="shopping-cart"
                         />
                     ),
                 }}
@@ -69,22 +70,23 @@ const AuthRoutes: React.FC = () => {
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}
+                            name="dashboard"
                             color={color}
-                            name="dashboard_customize"
                         />
                     ),
                 }}
             />
+
             <AuthStack.Screen
-                component={Pedidos}
-                name="Pedidos"
+                component={Notificacoes}
+                name="Notificacoes"
                 options={{
-                    tabBarLabel: 'Perfil',
+                    tabBarLabel: 'Notificações',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}
                             color={color}
-                            name="shopping_cart"
+                            name="notifications-active"
                         />
                     ),
                 }}
@@ -93,7 +95,7 @@ const AuthRoutes: React.FC = () => {
                 component={Produtos}
                 name="Produtos"
                 options={{
-                    tabBarLabel: 'Perfil',
+                    tabBarLabel: 'Produtos',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon size={24} color={color} name="list" />
                     ),
@@ -103,4 +105,4 @@ const AuthRoutes: React.FC = () => {
     );
 };
 
-export default React.memo(AuthRoutes);
+export default AuthRoutes;

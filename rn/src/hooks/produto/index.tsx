@@ -16,26 +16,12 @@ const ProdutoProvider: React.FC = ({children}) => {
         _paginacao,
         _setPaginacao,
     ] = React.useState<IProdutosPaginacao.Request>({
-        from: 50,
-        to: 100,
+        from: 0,
+        to: 50,
     });
 
     const [_loading, _setLoading] = React.useState<boolean>(false);
     const [_produtos, _setProdutos] = React.useState<IProduto.Produto_inf[]>(
-        [],
-    );
-
-    const paginacao: IProdutosPaginacao.paginacao = React.useCallback(
-        async (data: IProdutosPaginacao.Request): IProdutosPaginacao.Result => {
-            const {from, to} = data;
-            _setLoading(true);
-            _setPaginacao({
-                from,
-                to,
-            });
-            _setLoading(false);
-            return [];
-        },
         [],
     );
 
@@ -58,13 +44,40 @@ const ProdutoProvider: React.FC = ({children}) => {
         [],
     );
 
+    const atualizarPaginacao = React.useCallback(() => {
+        _setPaginacao((oldValue) => ({
+            from: oldValue.to,
+            to: oldValue.to + 20,
+        }));
+    }, []);
+
     React.useEffect(() => {
         _setLoading(true);
-        Api.get<IProduto.Produto_inf[]>(
-            `https://dcoimbra-mobile.herokuapp.com/produtos?limit=${_paginacao}`,
+        Api.get(
+            `https://dcoimbra-mobile.herokuapp.com/produtos?limit=${_paginacao.to}`,
         )
             .then((produtos) => {
-                _setProdutos(produtos.data);
+                const {products} = produtos.data;
+
+                _setProdutos((oldProducts) => {
+                    if (!oldProducts || oldProducts.length === 0) {
+                        return products;
+                    }
+
+                    const diff = Array.from<IProduto.Produto_inf>(
+                        products,
+                    ).filter(
+                        (_prod) =>
+                            !oldProducts.find(
+                                (prod) => _prod.pro_codigo === prod.pro_codigo,
+                            ),
+                    );
+
+                    if (!diff) {
+                        return oldProducts;
+                    }
+                    return [...oldProducts, ...diff];
+                });
                 _setLoading(false);
             })
             .catch((e) => {
@@ -78,8 +91,9 @@ const ProdutoProvider: React.FC = ({children}) => {
                 atualizarEstoque,
                 deletarProduto,
                 loading: _loading,
-                paginacao,
+                paginacao: _paginacao,
                 produtos: _produtos,
+                atualizarPaginacao,
             }}>
             {children}
         </ProdutoContext.Provider>

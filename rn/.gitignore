@@ -2,6 +2,8 @@
 #
 .DS_Store
 
+google-services.json
+
 # Xcode
 #
 build/

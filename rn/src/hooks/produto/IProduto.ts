@@ -11,5 +11,6 @@ export interface ProdutoContextData {
     atualizarEstoque: IAtualizarEstoqueDoProduto.atualizarEstoque;
     loading: boolean;
     deletarProduto: IDeletarProduto.deletar;
-    paginacao: IProdutosPaginacao.paginacao;
+    paginacao: IProdutosPaginacao.Request;
+    atualizarPaginacao: () => void;
 }
