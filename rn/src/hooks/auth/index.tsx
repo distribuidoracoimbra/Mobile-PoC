@@ -75,14 +75,11 @@ const AuthProvider: React.FC = ({children}) => {
                 ).then((userCredentials) => {
                     FirebaseStorageProvider.collection<
                         Omit<IUserProfileApp, 'user_password'>
-                    >('users')
-                        .doc(userCredentials.user.uid)
-                        .collection('perfil')
-                        .add({
-                            user_email: user_email,
-                            user_nome: user_nome,
-                            user_id: userCredentials.user.uid,
-                        });
+                    >('users').add({
+                        user_email: user_email,
+                        user_nome: user_nome,
+                        user_id: userCredentials.user.uid,
+                    });
 
                     setUserData({
                         user_email: user_email,

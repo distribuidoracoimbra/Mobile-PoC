@@ -52,7 +52,7 @@ const AuthRoutes: React.FC = () => {
                 component={Pedidos}
                 name="Pedidos"
                 options={{
-                    tabBarLabel: 'Perfil',
+                    tabBarLabel: 'Produtos',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}
@@ -66,7 +66,7 @@ const AuthRoutes: React.FC = () => {
                 component={Dashboard}
                 name="Dashboard"
                 options={{
-                    tabBarLabel: 'Perfil',
+                    tabBarLabel: 'Dashboard',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}
