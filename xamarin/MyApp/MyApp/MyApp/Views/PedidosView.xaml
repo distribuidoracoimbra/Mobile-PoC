@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:MyApp.ViewModels"
+             x:Class="MyApp.Views.PedidosView">
+
+    <ContentPage.BindingContext>
+        <vm:PedidosViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Novos Pedidos"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="25"
+                   FontAttributes="Bold"/>
+
+            <ListView ItemsSource="{Binding Pedidos}"
+                      ItemSelected="ListView_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding ProdutoID}"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontSize="15"/>
+
+                                <Label Text="{Binding Quantidade}"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       FontAttributes="Bold"
+                                       FontSize="15"/>
+
+                                <Label Text="{Binding Valor}"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       FontAttributes="Bold"
+                                       FontSize="15"/>
+
+                                <Label Text="{Binding ClienteID}"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="12"/>
+
+                                <Label Text="{Binding Data}"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="12"/>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                Visual="Material"
+                Command="{Binding AceitarPedidoCmd}" 
+                Text="Atender!"
+            />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

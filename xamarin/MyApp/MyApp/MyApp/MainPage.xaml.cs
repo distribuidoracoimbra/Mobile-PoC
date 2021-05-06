@@ -22,7 +22,7 @@ namespace MyApp
             MenuList = new List<MasterPageItem>();
 
             //Fot Ios icons
-            MasterPageItem Pedido = new MasterPageItem() { Title = "Pedidos", Icon = "ic_local_shipping.png", TargetType = typeof(Produtos) };
+            MasterPageItem Pedido = new MasterPageItem() { Title = "Pedidos", Icon = "ic_local_shipping.png", TargetType = typeof(PedidosView) };
             MasterPageItem Produto = new MasterPageItem() { Title = "Produtos", Icon = "ic_restaurant.png", TargetType = typeof(ListaProdutosView) };
             MasterPageItem Cliente = new MasterPageItem() { Title = "Clientes", Icon = "ic_local_pizza.png", TargetType = typeof(ListaClienteView) };
             MasterPageItem Contato = new MasterPageItem() { Title = "Contatos", Icon = "ic_local_dining.png", TargetType = typeof(ContatosView) };

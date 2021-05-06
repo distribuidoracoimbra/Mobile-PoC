@@ -2,6 +2,7 @@
 using MyApp.Views;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -62,10 +63,9 @@ namespace MyApp.ViewModels
             }
         }
 
-        public Command LoginCommand { get; set; }
-        public Command RegisterCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
+        public ICommand RegisterCommand { get; set; }
 
-        [Obsolete]
         public LoginViewModel()
         {
             LoginCommand = new Command(async () => await LoginCommandAsync());
@@ -80,7 +80,7 @@ namespace MyApp.ViewModels
             try
             {
                 IsBusy = true;
-                var userService = new UserService();
+                UserService userService = new UserService();
 
                 Result = await userService.RegisterUser(Username, Password);
 
@@ -99,7 +99,6 @@ namespace MyApp.ViewModels
             }
         }
 
-        [Obsolete]
         private async Task LoginCommandAsync()
         {
             if (IsBusy)
