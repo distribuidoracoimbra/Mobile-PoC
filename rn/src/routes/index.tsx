@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import RotasIniciais from './InitialRoutes';
 import AuthRoutes from './AuthRoutes';
@@ -39,7 +39,23 @@ const Routes: React.FC = () => {
 
     return (
         <NavigationContainer>
-            {usuarioLogado ? <AuthRoutes /> : <RotasIniciais />}
+            {usuarioLogado ? (
+                <React.Fragment>
+                    <StatusBar
+                        backgroundColor="#292929"
+                        barStyle="light-content"
+                    />
+                    <AuthRoutes />
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                    <StatusBar
+                        backgroundColor="#f0f0f0"
+                        barStyle="dark-content"
+                    />
+                    <RotasIniciais />
+                </React.Fragment>
+            )}
         </NavigationContainer>
     );
 };
