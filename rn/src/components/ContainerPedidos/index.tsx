@@ -21,7 +21,22 @@ export interface IPedidoProps {
     data_pedido: Date;
 }
 
-const ContainerPedidos: React.FC<IPedidoProps> = () => {
+const ContainerPedidos: React.FC<IPedidoProps> = ({
+    cli_nome,
+    data_pedido,
+    id,
+    total_pedido,
+}) => {
+    const dataFormatada = React.useMemo(() => {
+        return new Intl.DateTimeFormat('pt-BR').format(data_pedido);
+    }, [data_pedido]);
+
+    const totalDosPedidosFormatados = React.useMemo(() => {
+        const formater = new Intl.NumberFormat('pt-BR');
+
+        return formater.format(total_pedido);
+    }, [total_pedido]);
+
     return (
         <Container>
             <ConatinerInfoPedido>
@@ -32,15 +47,15 @@ const ContainerPedidos: React.FC<IPedidoProps> = () => {
                     <Text>115 KM</Text>
                 </WrapperClienteDistancia>
                 <WrapperPedidoInfo>
-                    <TextSecundario>ksudnBokkOko125</TextSecundario>
-                    <TextPrincipal>Churrascaria Paraná</TextPrincipal>
+                    <TextSecundario>{id}</TextSecundario>
+                    <TextPrincipal>{cli_nome}</TextPrincipal>
                 </WrapperPedidoInfo>
                 <WrapperTotalDoPedido>
-                    <TextPrincipal>25000</TextPrincipal>
+                    <TextPrincipal>{totalDosPedidosFormatados}</TextPrincipal>
                 </WrapperTotalDoPedido>
             </ConatinerInfoPedido>
             <WrapperDataPedido>
-                <TextSecundario>Data do pedido: 05/05/2021</TextSecundario>
+                <TextSecundario>Data do pedido: {dataFormatada}</TextSecundario>
             </WrapperDataPedido>
         </Container>
     );

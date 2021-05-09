@@ -1,6 +1,6 @@
 import React from 'react';
-import {FlatList} from 'react-native';
-import {usePedidos} from '../../../hooks/pedidos';
+import {FlatList, TouchableHighlight} from 'react-native';
+// import {usePedidos} from '../../../hooks/pedidos';
 import TituloPagina from '../../../components/TituloPagina';
 import ContainerTotal from '../../../components/ContainerTotal';
 import LottieAnimation from 'lottie-react-native';
@@ -9,50 +9,52 @@ import ContainerPedidos, {
 } from '../../../components/ContainerPedidos';
 // import {Text} from 'react-native';
 
-import {Container, TituloEmpty} from './styles';
+import {Container} from './styles';
 
 export const Pedidos: React.FC = () => {
     const pedidos: IPedidoProps[] = [
-        // {
-        //     id: '1',
-        //     cli_nome: 'asdf',
-        //     total_pedido: 150,
-        //     data_pedido: new Date(),
-        // },
-        // {
-        //     id: '2',
-        //     cli_nome: 'asdfsdf',
-        //     total_pedido: 152,
-        //     data_pedido: new Date(),
-        // },
-        // {
-        //     id: '3',
-        //     cli_nome: 'asdfsdf',
-        //     total_pedido: 153,
-        //     data_pedido: new Date(),
-        // },
-        // {
-        //     id: '4',
-        //     cli_nome: 'asdfsdf',
-        //     total_pedido: 153,
-        //     data_pedido: new Date(),
-        // },
-        // {
-        //     id: '5',
-        //     cli_nome: 'asdfsdf',
-        //     total_pedido: 153,
-        //     data_pedido: new Date(),
-        // },
-        // {
-        //     id: '6',
-        //     cli_nome: 'asdfsdf',
-        //     total_pedido: 153,
-        //     data_pedido: new Date(),
-        // },
+        {
+            id: '1',
+            cli_nome: 'asdf',
+            total_pedido: 150,
+            data_pedido: new Date(),
+        },
+        {
+            id: '2',
+            cli_nome: 'asdfsdf',
+            total_pedido: 152,
+            data_pedido: new Date(),
+        },
+        {
+            id: '3',
+            cli_nome: 'asdfsdf',
+            total_pedido: 153,
+            data_pedido: new Date(),
+        },
+        {
+            id: '4',
+            cli_nome: 'asdfsdf',
+            total_pedido: 153,
+            data_pedido: new Date(),
+        },
+        {
+            id: '5',
+            cli_nome: 'asdfsdf',
+            total_pedido: 153,
+            data_pedido: new Date(),
+        },
+        {
+            id: '6',
+            cli_nome: 'asdfsdf',
+            total_pedido: 153.55,
+            data_pedido: new Date(),
+        },
     ];
 
     const totalDePedidos = React.useMemo(() => {
-        return pedidos.length;
+        return pedidos.reduce((prev, next) => {
+            return prev + next.total_pedido;
+        }, 0);
     }, [pedidos]);
 
     // React.useEffect(() => {
@@ -74,20 +76,22 @@ export const Pedidos: React.FC = () => {
                         data={pedidos}
                         keyExtractor={({id}) => id}
                         ListHeaderComponent={() => (
-                            <ContainerTotal total={1500} />
+                            <ContainerTotal total={totalDePedidos} />
                         )}
                         renderItem={({item}) => (
-                            <ContainerPedidos
-                                cli_nome={item.cli_nome}
-                                data_pedido={item.data_pedido}
-                                id={item.id}
-                                total_pedido={item.total_pedido}
-                            />
+                            <TouchableHighlight
+                                onPress={() => console.log(item.id)}>
+                                <ContainerPedidos
+                                    cli_nome={item.cli_nome}
+                                    data_pedido={item.data_pedido}
+                                    id={item.id}
+                                    total_pedido={item.total_pedido}
+                                />
+                            </TouchableHighlight>
                         )}
                     />
                 ) : (
                     <React.Fragment>
-                        {/* <TituloEmpty>Não há nenhum pedido atual !</TituloEmpty> */}
                         <LottieAnimation
                             resizeMode="contain"
                             hardwareAccelerationAndroid

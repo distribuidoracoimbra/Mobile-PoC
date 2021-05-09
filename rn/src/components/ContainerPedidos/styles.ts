@@ -57,7 +57,7 @@ export const WrapperPinDistancia = styled.View`
 `;
 
 export const WrapperTotalDoPedido = styled.View`
-    width: 15%;
+    width: auto;
     align-items: center;
     justify-content: center;
 `;

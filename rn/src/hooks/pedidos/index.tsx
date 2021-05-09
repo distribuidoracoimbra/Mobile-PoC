@@ -38,7 +38,7 @@ const PedidoProvider: React.FC = ({children}) => {
 
     const atualizarQuantidadeDeProdutosEmUmPedido: IAtualizaQuantidadeDeItensNoPedido.atualizaQuantidadeDeItensNoPedido = React.useCallback(
         async (
-            pedido: IAtualizaQuantidadeDeItensNoPedido.Request,
+            _pedido: IAtualizaQuantidadeDeItensNoPedido.Request,
         ): IAtualizaQuantidadeDeItensNoPedido.Result => {
             _setLoading(true);
 
@@ -59,48 +59,39 @@ const PedidoProvider: React.FC = ({children}) => {
     );
 
     const _atualizarPedidos = React.useCallback((e: IPedido[] | undefined) => {
-        _setPedidos((oldPedidos) => {
-            if (!oldPedidos || oldPedidos.length === 0) {
-                if (!e || e.length === 0) {
-                    return [];
-                }
-
-                return e;
-            }
-
-            if (!e || e.length === 0) {
-                return oldPedidos;
-            }
-
-            const diff = e.filter(
-                (_p) =>
-                    !oldPedidos.find(
-                        (p) => _p.pedido_codigo === p.pedido_codigo,
-                    ),
-            );
-
-            return [...oldPedidos, ...diff];
-        });
+        console.log(`mudança nos pedidos - ${e?.length}`);
+        console.log(e);
     }, []);
 
     React.useEffect(() => {
-        const doc = FirebaseStorage.collection<IPedido[]>('pedidos')
-            .doc(user.user_id)
-            .onSnapshot((document) => {
-                _atualizarPedidos(document.data());
-            });
+        if (user.user_id) {
+            const doc = FirebaseStorage.collection<IPedido>('pedidos')
+                .where('user_id', '==', user.user_id)
+                .onSnapshot((document) => {
+                    document.forEach((el) => {
+                        const e = el.data();
 
-        return () => doc();
+                        _setPedidos((oldPedidos) => {
+                            if (!oldPedidos || oldPedidos.length === 0) {
+                                return [e];
+                            }
+
+                            const diff = oldPedidos.filter(
+                                (_el) => _el.pedido_codigo !== e.pedido_codigo,
+                            );
+
+                            if (!diff) {
+                                return oldPedidos;
+                            }
+
+                            return [...oldPedidos, ...diff];
+                        });
+                    });
+                    // _atualizarPedidos(document.docs);
+                });
+            return () => doc();
+        }
     }, [FirebaseStorage, user.user_id, _atualizarPedidos]);
-
-    React.useEffect(() => {
-        FirebaseStorage.collection<IPedido[]>('pedidos')
-            .doc(user.user_id)
-            .get()
-            .then((pedidos) => {
-                console.log(`Todos os pedidos - ${pedidos.data()}`);
-            });
-    }, [FirebaseStorage, user.user_id]);
 
     return (
         <PedidoContext.Provider
