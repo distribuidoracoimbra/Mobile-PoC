@@ -42,7 +42,7 @@ const Routes: React.FC = () => {
             {usuarioLogado ? (
                 <React.Fragment>
                     <StatusBar
-                        backgroundColor="#292929"
+                        backgroundColor="#161730"
                         barStyle="light-content"
                     />
                     <AuthRoutes />

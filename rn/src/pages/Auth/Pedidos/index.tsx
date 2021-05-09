@@ -1,9 +1,9 @@
 import React from 'react';
 import {FlatList, TouchableHighlight} from 'react-native';
 // import {usePedidos} from '../../../hooks/pedidos';
-import TituloPagina from '../../../components/TituloPagina';
 import ContainerTotal from '../../../components/ContainerTotal';
 import LottieAnimation from 'lottie-react-native';
+import {useNavigation} from '@react-navigation/native';
 import ContainerPedidos, {
     IPedidoProps,
 } from '../../../components/ContainerPedidos';
@@ -50,6 +50,7 @@ export const Pedidos: React.FC = () => {
             data_pedido: new Date(),
         },
     ];
+    const {navigate} = useNavigation();
 
     const totalDePedidos = React.useMemo(() => {
         return pedidos.reduce((prev, next) => {
@@ -67,45 +68,51 @@ export const Pedidos: React.FC = () => {
     //         });
     // }, []);
 
+    const handlePedidoClick = React.useCallback(
+        (id: string) => {
+            navigate('EditPedidos', {
+                pedido_id: id,
+            });
+        },
+        [navigate],
+    );
+
     return (
-        <React.Fragment>
-            <TituloPagina titulo="Seus pedidos" />
-            <Container>
-                {pedidos.length > 0 ? (
-                    <FlatList<IPedidoProps>
-                        data={pedidos}
-                        keyExtractor={({id}) => id}
-                        ListHeaderComponent={() => (
-                            <ContainerTotal total={totalDePedidos} />
-                        )}
-                        renderItem={({item}) => (
-                            <TouchableHighlight
-                                onPress={() => console.log(item.id)}>
-                                <ContainerPedidos
-                                    cli_nome={item.cli_nome}
-                                    data_pedido={item.data_pedido}
-                                    id={item.id}
-                                    total_pedido={item.total_pedido}
-                                />
-                            </TouchableHighlight>
-                        )}
+        <Container>
+            {pedidos.length > 0 ? (
+                <FlatList<IPedidoProps>
+                    data={pedidos}
+                    keyExtractor={({id}) => id}
+                    ListHeaderComponent={() => (
+                        <ContainerTotal total={totalDePedidos} />
+                    )}
+                    renderItem={({item}) => (
+                        <TouchableHighlight
+                            onPress={() => handlePedidoClick(item.id)}>
+                            <ContainerPedidos
+                                cli_nome={item.cli_nome}
+                                data_pedido={item.data_pedido}
+                                id={item.id}
+                                total_pedido={item.total_pedido}
+                            />
+                        </TouchableHighlight>
+                    )}
+                />
+            ) : (
+                <React.Fragment>
+                    <LottieAnimation
+                        resizeMode="contain"
+                        hardwareAccelerationAndroid
+                        autoPlay
+                        loop
+                        style={{
+                            display: 'flex',
+                        }}
+                        source={require('../Notificacoes/rocket-dog.json')}
                     />
-                ) : (
-                    <React.Fragment>
-                        <LottieAnimation
-                            resizeMode="contain"
-                            hardwareAccelerationAndroid
-                            autoPlay
-                            loop
-                            style={{
-                                display: 'flex',
-                            }}
-                            source={require('../Notificacoes/rocket-dog.json')}
-                        />
-                    </React.Fragment>
-                )}
-            </Container>
-        </React.Fragment>
+                </React.Fragment>
+            )}
+        </Container>
     );
 };
 

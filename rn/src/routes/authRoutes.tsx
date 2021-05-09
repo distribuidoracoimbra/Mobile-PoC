@@ -14,6 +14,7 @@
 
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
     Clientes,
@@ -21,10 +22,42 @@ import {
     Notificacoes,
     Pedidos,
     Produtos,
+    InfoPedidos,
 } from '../pages/Auth';
 
 // import { Container } from './styles';
 const AuthStack = createMaterialBottomTabNavigator();
+
+const PedidosStack = createStackNavigator();
+
+const PedidosRoutes: React.FC = () => {
+    return (
+        <PedidosStack.Navigator
+            screenOptions={{
+                headerTitleAlign: 'center',
+                animationEnabled: true,
+                headerStyle: {
+                    backgroundColor: '#161d30',
+                },
+                headerTintColor: 'white',
+            }}>
+            <PedidosStack.Screen
+                options={{
+                    title: 'Seus Pedidos',
+                }}
+                name="pedidos"
+                component={Pedidos}
+            />
+            <PedidosStack.Screen
+                options={{
+                    title: 'Editar pedido',
+                }}
+                name="EditPedidos"
+                component={InfoPedidos}
+            />
+        </PedidosStack.Navigator>
+    );
+};
 
 const AuthRoutes: React.FC = () => {
     return (
@@ -49,7 +82,7 @@ const AuthRoutes: React.FC = () => {
             />
 
             <AuthStack.Screen
-                component={Pedidos}
+                component={PedidosRoutes}
                 name="Pedidos"
                 options={{
                     tabBarLabel: 'Produtos',
