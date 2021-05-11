@@ -46,6 +46,11 @@ export const InfoPedidos: React.FC = () => {
         });
     }, [params, buscarDetalhesDoPedido]);
 
+    const totalDeLimiteDisponivelDoCliente = React.useMemo(
+        () => 30000 - data.pedido.total,
+        [data.pedido.total],
+    );
+
     // const pedidos: IPedido = React.useMemo(() => {
     //     return {
     //         id: '1',
@@ -100,8 +105,13 @@ export const InfoPedidos: React.FC = () => {
                             {data.pedido.cliente?.cli_nome || 'Anônimus'}
                         </TextPrincipal>
                         <WrapperTotalDoPedido>
-                            <TextTotalPedido>
-                                {30000 - data.pedido.total}
+                            <TextTotalPedido
+                                tipo={
+                                    totalDeLimiteDisponivelDoCliente > 0
+                                        ? 'positivo'
+                                        : 'negativo'
+                                }>
+                                {totalDeLimiteDisponivelDoCliente}
                             </TextTotalPedido>
                             <LabelTotalPedido>
                                 Limite disponível
@@ -119,7 +129,15 @@ export const InfoPedidos: React.FC = () => {
                             keyExtractor={({pro_codigo}) =>
                                 pro_codigo.toString()
                             }
-                            renderItem={({item}) => <RowProduto data={item} />}
+                            renderItem={({item}) => (
+                                <RowProduto
+                                    data={{
+                                        pro_price: item.produto!.valor,
+                                        pro_quantidade: item.quantidade,
+                                        pro_imagem: item.produto!.fotos[0],
+                                    }}
+                                />
+                            )}
                         />
                     ) : (
                         <LottieAnimation

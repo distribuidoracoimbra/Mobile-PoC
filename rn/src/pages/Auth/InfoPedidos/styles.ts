@@ -35,10 +35,13 @@ export const ClienteWrapperIcon = styled.View`
     align-items: center;
     justify-content: center;
 `;
+type ITextTotalDoPedido = {
+    tipo: 'positivo' | 'negativo';
+};
 
-export const TextTotalPedido = styled.Text`
+export const TextTotalPedido = styled.Text<ITextTotalDoPedido>`
     font-size: 18px;
-    color: #21c25e;
+    color: ${(props) => (props.tipo === 'positivo' ? '#21c25e' : '#C22121')};
     font-weight: 900;
 `;
 
