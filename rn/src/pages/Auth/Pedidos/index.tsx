@@ -14,6 +14,9 @@ export const Pedidos: React.FC = () => {
     const {pedidos} = usePedidos();
 
     const totalDePedidos = React.useMemo(() => {
+        if (pedidos.length <= 0) {
+            return 0;
+        }
         return pedidos.reduce((prev, next) => {
             return prev + next.total;
         }, 0);
@@ -34,6 +37,9 @@ export const Pedidos: React.FC = () => {
                 <FlatList<IPedido>
                     data={pedidos}
                     keyExtractor={({id}) => id}
+                    style={{
+                        width: '100%',
+                    }}
                     ListHeaderComponent={() => (
                         <ContainerTotal total={totalDePedidos} />
                     )}

@@ -7,6 +7,10 @@ const ClienteContext = React.createContext<ClienteContextData>(
     {} as ClienteContextData,
 );
 
+type IResultApiClientes = {
+    clientes: ICliente[];
+};
+
 const ClienteProvider: React.FC = ({children}) => {
     const [_clientes, _setCliente] = React.useState<ICliente[]>([]);
     const [_paginacao, _setPaginacao] = React.useState({
@@ -43,13 +47,25 @@ const ClienteProvider: React.FC = ({children}) => {
     }, []);
 
     React.useEffect(() => {
-        Api.get<ICliente[]>(
-            `https://dcoimbra-mobile.herokuapp.com/clientes?from=${_paginacao.from}&to=${_paginacao.to}`,
+        console.log('carregando clientes');
+        Api.get<IResultApiClientes>(
+            'https://dcoimbra-mobile.herokuapp.com/clientes',
+            {
+                params: {
+                    from: _paginacao.from,
+                    to: _paginacao.to,
+                },
+            },
         ).then((axiosData) => {
-            const {data} = axiosData;
+            const {clientes} = axiosData.data;
+
             _setCliente((oldCli) => {
+                if (oldCli.length <= 0) {
+                    return clientes;
+                }
+
                 const diff = oldCli.filter((_cli) =>
-                    data.find(
+                    clientes.find(
                         (_axiosCli) => _axiosCli.cli_codigo !== _cli.cli_codigo,
                     ),
                 );

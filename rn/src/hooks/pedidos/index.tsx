@@ -93,6 +93,7 @@ const PedidoProvider: React.FC = ({children}) => {
 
     const _buscarDetalhesDoPedido = React.useCallback(
         async (pedido_id: string): Promise<IProdutoWithPedido | undefined> => {
+            _setLoading(true);
             const pedido = _pedidos.find((ped) => ped.id === pedido_id);
 
             if (!pedido) {
@@ -109,6 +110,8 @@ const PedidoProvider: React.FC = ({children}) => {
                     ...prod,
                     produto: buscarProdutoPorId(prod.pro_codigo),
                 }));
+
+            _setLoading(false);
 
             return {
                 pedido: {

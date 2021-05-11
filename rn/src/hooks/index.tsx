@@ -8,9 +8,9 @@ const AppProvider: React.FC = ({children}) => {
     return (
         <AuthProvider>
             <ProdutoProvider>
-                <PedidoProvider>
-                    <ClienteProvider>{children}</ClienteProvider>
-                </PedidoProvider>
+                <ClienteProvider>
+                    <PedidoProvider>{children}</PedidoProvider>
+                </ClienteProvider>
             </ProdutoProvider>
         </AuthProvider>
     );
