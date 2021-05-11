@@ -14,4 +14,5 @@ export interface ProdutoContextData extends IListagemGeral {
     deletarProduto: IDeletarProduto.deletar;
     paginacao: IProdutosPaginacao.Request;
     atualizarPaginacao: () => void;
+    buscarProdutoPorId: (pro_codigo: number) => IProduto | undefined;
 }

@@ -3,6 +3,8 @@ import {useAuth} from '../auth';
 import FirebaseStorageProvider from '@react-native-firebase/firestore';
 import {PedidoContextData, IProdutoWithPedido} from './IPedido';
 import uuid from 'react-native-uuid';
+import {useClientes} from '../clientes';
+import {useProduto} from '../produto';
 
 import {ICreatePedido, IPedido} from '../../../domain/pedido';
 import {
@@ -18,22 +20,38 @@ const PedidoProvider: React.FC = ({children}) => {
     const [_pedidos, _setPedidos] = React.useState<IPedido[]>([]);
     const [_loading, _setLoading] = React.useState<boolean>(false);
     const {user} = useAuth();
+    const {buscarClientePeloId} = useClientes();
+    const {buscarProdutoPorId} = useProduto();
     const FirebaseStorage = FirebaseStorageProvider();
+
+    const produtosDeUmPedidosRef = React.useMemo(
+        () =>
+            FirebaseStorage.collection<IProdutoDoPedido>(
+                'produtos-de-um-pedidos',
+            ),
+        [FirebaseStorage],
+    );
+
+    const pedidosRef = React.useMemo(
+        () => FirebaseStorage.collection<IPedido>('pedidos'),
+        [FirebaseStorage],
+    );
 
     const criarPedido: ICreatePedido.criarPedido = React.useCallback(
         async (pedido: ICreatePedido.Request): ICreatePedido.Result => {
             const {cli_codigo} = pedido;
 
-            await FirebaseStorage.collection<IPedido>('pedidos').add({
+            await pedidosRef.add({
                 cli_codigo,
                 data_pedido: new Date(),
                 id: String(uuid.v4()),
                 user_id: user.user_id,
+                total: 0,
             });
 
             return undefined;
         },
-        [FirebaseStorage, user.user_id],
+        [pedidosRef, user.user_id],
     );
 
     const adicionarProdutosAUmPedido: IAdicionarProdutosEmUmPedido.adicionarProdutosEmUmPedido = React.useCallback(
@@ -43,9 +61,6 @@ const PedidoProvider: React.FC = ({children}) => {
             _setLoading(true);
             const {pedido_id, produto_id, quantidade} = pedido;
 
-            const produtosDeUmPedidosRef = FirebaseStorage.collection<IProdutoDoPedido>(
-                'produtos-de-um-pedidos',
-            );
             produtosDeUmPedidosRef
                 .where('pedido_id', '==', pedido_id)
                 .get()
@@ -68,7 +83,7 @@ const PedidoProvider: React.FC = ({children}) => {
             _setLoading(false);
             return undefined;
         },
-        [FirebaseStorage],
+        [produtosDeUmPedidosRef],
     );
 
     const _atualizarPedidos = React.useCallback((e: IPedido[] | undefined) => {
@@ -78,10 +93,6 @@ const PedidoProvider: React.FC = ({children}) => {
 
     const _buscarDetalhesDoPedido = React.useCallback(
         async (pedido_id: string): Promise<IProdutoWithPedido | undefined> => {
-            const produtosDeUmPedidosRef = FirebaseStorage.collection<IProdutoDoPedido>(
-                'produtos-de-um-pedidos',
-            );
-
             const pedido = _pedidos.find((ped) => ped.id === pedido_id);
 
             if (!pedido) {
@@ -92,19 +103,32 @@ const PedidoProvider: React.FC = ({children}) => {
                 await produtosDeUmPedidosRef
                     .where('pedido_id', '==', pedido_id)
                     .get()
-            ).docs.map((pro) => pro.data());
+            ).docs
+                .map((pro) => pro.data())
+                .map((prod) => ({
+                    ...prod,
+                    produto: buscarProdutoPorId(prod.pro_codigo),
+                }));
 
             return {
-                pedido,
+                pedido: {
+                    ...pedido,
+                    cliente: buscarClientePeloId(pedido.cli_codigo),
+                },
                 produtos,
             };
         },
-        [FirebaseStorage, _pedidos],
+        [
+            _pedidos,
+            produtosDeUmPedidosRef,
+            buscarClientePeloId,
+            buscarProdutoPorId,
+        ],
     );
 
     React.useEffect(() => {
         if (user.user_id) {
-            const doc = FirebaseStorage.collection<IPedido>('pedidos')
+            const doc = pedidosRef
                 .where('user_id', '==', user.user_id)
                 .onSnapshot((document) => {
                     document.forEach((el) => {
@@ -112,7 +136,14 @@ const PedidoProvider: React.FC = ({children}) => {
 
                         _setPedidos((oldPedidos) => {
                             if (!oldPedidos || oldPedidos.length === 0) {
-                                return [e];
+                                return [
+                                    {
+                                        ...e,
+                                        cliente: buscarClientePeloId(
+                                            e.cli_codigo,
+                                        ),
+                                    },
+                                ];
                             }
 
                             const diff = oldPedidos.filter(
@@ -123,14 +154,28 @@ const PedidoProvider: React.FC = ({children}) => {
                                 return oldPedidos;
                             }
 
-                            return [...oldPedidos, ...diff];
+                            const newArrayOfPedido = [
+                                ...oldPedidos,
+                                ...diff,
+                            ].map((ped) => ({
+                                ...ped,
+                                cliente: buscarClientePeloId(ped.cli_codigo),
+                            }));
+
+                            return newArrayOfPedido;
                         });
                     });
                     // _atualizarPedidos(document.docs);
                 });
             return () => doc();
         }
-    }, [FirebaseStorage, user.user_id, _atualizarPedidos]);
+    }, [
+        FirebaseStorage,
+        user.user_id,
+        _atualizarPedidos,
+        pedidosRef,
+        buscarClientePeloId,
+    ]);
 
     return (
         <PedidoContext.Provider

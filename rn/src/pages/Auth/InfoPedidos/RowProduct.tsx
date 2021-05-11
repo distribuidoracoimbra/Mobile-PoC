@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text} from 'react-native';
+import {IProdutoDoPedido} from '../../../../domain/produtos-de-um-pedidos';
 
 import {TextPrincipal} from '../../../components/Text';
 
@@ -15,12 +16,7 @@ import {
     TextTotalPedido,
 } from './styles';
 
-type IRowProduct = {
-    product_image: string;
-    product_descricao: string;
-    product_price: number;
-    product_total: number;
-};
+type IRowProduct = IProdutoDoPedido;
 
 interface IRowProductProps {
     data: IRowProduct;
@@ -31,7 +27,7 @@ const RowProduct: React.FC<IRowProductProps> = ({data}) => {
         <WrapperProduct>
             <WrapperProductImage>
                 <ProductImage
-                    source={{uri: data.product_image}}
+                    source={{uri: data.produto?.fotos[0]}}
                     resizeMode="center"
                 />
             </WrapperProductImage>

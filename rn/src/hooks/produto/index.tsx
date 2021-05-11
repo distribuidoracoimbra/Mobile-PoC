@@ -17,7 +17,7 @@ const ProdutoProvider: React.FC = ({children}) => {
         _setPaginacao,
     ] = React.useState<IProdutosPaginacao.Request>({
         from: 0,
-        to: 50,
+        to: 150,
     });
 
     const [_loading, _setLoading] = React.useState<boolean>(false);
@@ -57,6 +57,13 @@ const ProdutoProvider: React.FC = ({children}) => {
             to: 50,
         });
     }, []);
+
+    const _buscarProdutoPorId = React.useCallback(
+        (pro_codigo: number) => {
+            return _produtos.find((prod) => prod.pro_codigo === pro_codigo);
+        },
+        [_produtos],
+    );
 
     React.useEffect(() => {
         _setLoading(true);
@@ -102,6 +109,7 @@ const ProdutoProvider: React.FC = ({children}) => {
                 produtos: _produtos,
                 atualizarPaginacao,
                 reset,
+                buscarProdutoPorId: _buscarProdutoPorId,
             }}>
             {children}
         </ProdutoContext.Provider>
