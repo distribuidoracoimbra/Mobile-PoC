@@ -1,12 +1,14 @@
 import React from 'react';
 import {useAuth} from '../auth';
 import FirebaseStorageProvider from '@react-native-firebase/firestore';
-import {PedidoContextData} from './IPedido';
+import {PedidoContextData, IProdutoWithPedido} from './IPedido';
+import uuid from 'react-native-uuid';
+
+import {ICreatePedido, IPedido} from '../../../domain/pedido';
 import {
-    IAtualizaQuantidadeDeItensNoPedido,
-    ICreatePedido,
-    IPedido,
-} from '../../../domain/pedido';
+    IAdicionarProdutosEmUmPedido,
+    IProdutoDoPedido,
+} from '../../../domain/produtos-de-um-pedidos';
 
 const PedidoContext = React.createContext<PedidoContextData>(
     {} as PedidoContextData,
@@ -22,46 +24,83 @@ const PedidoProvider: React.FC = ({children}) => {
         async (pedido: ICreatePedido.Request): ICreatePedido.Result => {
             const {cli_codigo} = pedido;
 
-            await FirebaseStorage.collection<IPedido>('pedidos')
-                .doc(user.user_id)
-                .collection(String(cli_codigo))
-                .add({
-                    cli_codigo,
-                    data_pedido: new Date(),
-                    produtos: [],
-                });
+            await FirebaseStorage.collection<IPedido>('pedidos').add({
+                cli_codigo,
+                data_pedido: new Date(),
+                id: String(uuid.v4()),
+                user_id: user.user_id,
+            });
 
             return undefined;
         },
         [FirebaseStorage, user.user_id],
     );
 
-    const atualizarQuantidadeDeProdutosEmUmPedido: IAtualizaQuantidadeDeItensNoPedido.atualizaQuantidadeDeItensNoPedido = React.useCallback(
+    const adicionarProdutosAUmPedido: IAdicionarProdutosEmUmPedido.adicionarProdutosEmUmPedido = React.useCallback(
         async (
-            _pedido: IAtualizaQuantidadeDeItensNoPedido.Request,
-        ): IAtualizaQuantidadeDeItensNoPedido.Result => {
+            pedido: IAdicionarProdutosEmUmPedido.Request,
+        ): IAdicionarProdutosEmUmPedido.Result => {
             _setLoading(true);
+            const {pedido_id, produto_id, quantidade} = pedido;
 
-            // const {nova_quantidade, pedido_codigo, pro_codigo} = pedido;
-
-            // const teste = await FirebaseStorage.collectionGroup<IPedido>(
-            //     'pedidos',
-            // )
-            //     .where('pedido_codigo', '==', pedido_codigo)
-            //     .where('produto', 'array-contains', pro_codigo)
-            //     .get();
+            const produtosDeUmPedidosRef = FirebaseStorage.collection<IProdutoDoPedido>(
+                'produtos-de-um-pedidos',
+            );
+            produtosDeUmPedidosRef
+                .where('pedido_id', '==', pedido_id)
+                .get()
+                .then((pedidoRef) => {
+                    if (pedidoRef.empty) {
+                        produtosDeUmPedidosRef.add({
+                            pedido_id,
+                            pro_codigo: produto_id,
+                            quantidade,
+                        });
+                    } else {
+                        pedidoRef.docs.forEach((doc) =>
+                            doc.ref.update({
+                                quantidade: quantidade,
+                            }),
+                        );
+                    }
+                });
 
             _setLoading(false);
-            // const res = await pedidosRef.collection(pedido_codigo);
             return undefined;
         },
-        [],
+        [FirebaseStorage],
     );
 
     const _atualizarPedidos = React.useCallback((e: IPedido[] | undefined) => {
         console.log(`mudança nos pedidos - ${e?.length}`);
         console.log(e);
     }, []);
+
+    const _buscarDetalhesDoPedido = React.useCallback(
+        async (pedido_id: string): Promise<IProdutoWithPedido | undefined> => {
+            const produtosDeUmPedidosRef = FirebaseStorage.collection<IProdutoDoPedido>(
+                'produtos-de-um-pedidos',
+            );
+
+            const pedido = _pedidos.find((ped) => ped.id === pedido_id);
+
+            if (!pedido) {
+                throw new Error('asdf');
+            }
+
+            const produtos = (
+                await produtosDeUmPedidosRef
+                    .where('pedido_id', '==', pedido_id)
+                    .get()
+            ).docs.map((pro) => pro.data());
+
+            return {
+                pedido,
+                produtos,
+            };
+        },
+        [FirebaseStorage, _pedidos],
+    );
 
     React.useEffect(() => {
         if (user.user_id) {
@@ -77,7 +116,7 @@ const PedidoProvider: React.FC = ({children}) => {
                             }
 
                             const diff = oldPedidos.filter(
-                                (_el) => _el.pedido_codigo !== e.pedido_codigo,
+                                (_el) => _el.id !== e.id,
                             );
 
                             if (!diff) {
@@ -96,8 +135,9 @@ const PedidoProvider: React.FC = ({children}) => {
     return (
         <PedidoContext.Provider
             value={{
-                atualizarItensDoPedido: atualizarQuantidadeDeProdutosEmUmPedido,
+                atualizarItensDoPedido: adicionarProdutosAUmPedido,
                 criarPedido,
+                buscarDetalhesDoPedido: _buscarDetalhesDoPedido,
                 loading: _loading,
                 pedidos: _pedidos,
             }}>
