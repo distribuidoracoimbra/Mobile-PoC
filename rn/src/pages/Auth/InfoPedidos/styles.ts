@@ -51,13 +51,14 @@ export const LabelTotalPedido = styled(TextSecundario)`
     color: #343434;
 `;
 
-export const WrapperTitleCard = styled.View`
+export const WrapperTitleCard = styled.TouchableOpacity`
     width: 100%;
     min-height: 50px;
     /* height: 20%; */
 
     align-items: center;
     justify-content: center;
+    z-index: 1;
 `;
 
 export const TitleAddToCart = styled(TextPrincipal)`
@@ -121,7 +122,7 @@ export const TextButton = styled.Text`
     color: white;
 `;
 
-export const WrapperPlusButton = styled.View`
+export const WrapperPlusButton = styled.TouchableHighlight`
     background-color: #161d30;
     width: 20px;
     height: 20px;

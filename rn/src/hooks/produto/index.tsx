@@ -56,6 +56,7 @@ const ProdutoProvider: React.FC = ({children}) => {
             from: 0,
             to: 50,
         });
+        _setProdutos([]);
     }, []);
 
     const _buscarProdutoPorId = React.useCallback(

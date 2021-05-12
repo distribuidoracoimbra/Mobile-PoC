@@ -8,6 +8,7 @@ import {IProdutoWithPedido} from '../../../hooks/pedidos/IPedido';
 import {IProdutoDoPedido} from '../../../../domain/produtos-de-um-pedidos';
 import RowProduto from './RowProduct';
 import LottieAnimation from 'lottie-react-native';
+import RowAddProduct from './RowAddNewProduct';
 
 import {
     Container,
@@ -34,8 +35,26 @@ export const InfoPedidos: React.FC = () => {
         {} as IProdutoWithPedido,
     );
 
-    const {buscarDetalhesDoPedido, loading} = usePedidos();
+    const [addNewProduct, setAddNewProduct] = React.useState<boolean>(false);
+
+    const {
+        buscarDetalhesDoPedido,
+        loading,
+        atualizarItensDoPedido,
+    } = usePedidos();
     const {params} = useRoute<IParamsPros>();
+
+    const totalDeLimiteDisponivelDoCliente = React.useMemo(
+        () => (data.pedido ? 30000 - data.pedido.total : 0),
+        [data.pedido],
+    );
+    const _addProduct = React.useCallback(
+        (data: {pro_codigo: number; type: 'add' | 'remove'}) => {
+            const {pro_codigo, type} = data;
+            // atualizarItensDoPedido()
+        },
+        [],
+    );
 
     React.useEffect(() => {
         buscarDetalhesDoPedido(String(params.pedido_id)).then((ped) => {
@@ -45,38 +64,6 @@ export const InfoPedidos: React.FC = () => {
             setData(ped);
         });
     }, [params, buscarDetalhesDoPedido]);
-
-    const totalDeLimiteDisponivelDoCliente = React.useMemo(
-        () => 30000 - data.pedido.total,
-        [data.pedido.total],
-    );
-
-    // const pedidos: IPedido = React.useMemo(() => {
-    //     return {
-    //         id: '1',
-    //         user_id: 'sdfasdf',
-    //         data_pedido: new Date(),
-    //         pedido_codigo: 'asdfasd',
-    //         produtos: [
-    //             {
-    //                 pro_codigo: 1,
-    //                 quantidade: 5,
-    //                 produto: {
-    //                     estoque: 20,
-    //                     fotos: [
-    //                         'https://static.netshoes.com.br/produtos/tenis-adidas-breaknet-feminino/70/NQQ-4379-170/NQQ-4379-170_zoom1.jpg?ts=1602007318',
-    //                     ],
-    //                     pro_codigo: 1,
-    //                     pro_descricao: 'Tênis adidas Breaknet',
-    //                     valor: 350,
-    //                 },
-    //             },
-    //         ],
-    //         cliente: {
-    //             cli_codigo: 1,
-    //         },
-    //     };
-    // }, []);
 
     return (
         <Container>
@@ -118,12 +105,14 @@ export const InfoPedidos: React.FC = () => {
                             </LabelTotalPedido>
                         </WrapperTotalDoPedido>
                     </WrapperCliente>
-                    <WrapperTitleCard>
+                    <WrapperTitleCard onPress={() => setAddNewProduct(true)}>
                         <TitleAddToCart>
                             Adicione itens no pedido
                         </TitleAddToCart>
                     </WrapperTitleCard>
-                    {data.produtos.length > 0 ? (
+                    {addNewProduct ? (
+                        <RowAddProduct pedido_id={params.pedido_id} />
+                    ) : data.produtos.length > 0 ? (
                         <FlatList<IProdutoDoPedido>
                             data={data.produtos}
                             keyExtractor={({pro_codigo}) =>
@@ -132,12 +121,20 @@ export const InfoPedidos: React.FC = () => {
                             renderItem={({item}) => (
                                 <RowProduto
                                     data={{
+                                        pro_codigo: item.pro_codigo,
                                         pro_price: item.produto!.valor,
                                         pro_quantidade: item.quantidade,
                                         pro_imagem: item.produto!.fotos[0],
+                                        pro_descricao: item.produto!
+                                            .pro_descricao,
                                     }}
+                                    addProduct={_addProduct}
+                                    typeOfRow="increment"
                                 />
                             )}
+                            initialNumToRender={15}
+                            maxToRenderPerBatch={15}
+                            onEndReachedThreshold={0.1}
                         />
                     ) : (
                         <LottieAnimation
@@ -147,6 +144,7 @@ export const InfoPedidos: React.FC = () => {
                             loop
                             style={{
                                 display: 'flex',
+                                zIndex: 0,
                             }}
                             source={require('../Notificacoes/rocket-dog.json')}
                         />
