@@ -6,16 +6,23 @@ namespace MyApp.Views
 {
     public partial class ListaProdutosView : ContentPage
     {
+        ProdutosViewModel produtosVM;
         public ListaProdutosView()
         {
             InitializeComponent();
-            BindingContext = new ProdutosViewModel();
+            produtosVM = new ProdutosViewModel();
+            this.BindingContext = produtosVM;
+        }
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await produtosVM.LoadProdutos();
         }
 
         private async void OnItemSelected(Object sender, ItemTappedEventArgs e)
         {
             var mydetails = e.Item as Produto;
-            await Navigation.PushAsync(new ListaProdutosDetailView(mydetails.ProdutoID.ToString() , mydetails.Descricao, mydetails.Estoque.ToString(), mydetails.Fotos[0].ToString(), mydetails.Valor.ToString()));
+            await Navigation.PushAsync(new ListaProdutosDetailView(mydetails.ProdutoID.ToString() , mydetails.Descricao, mydetails.Estoque.ToString(), mydetails.Foto.ToString(), mydetails.Valor.ToString()));
         }
     }
 }

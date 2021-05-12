@@ -36,7 +36,8 @@
                                        Aspect="AspectFill"
                                        WidthRequest="66"
                                        Grid.RowSpan="3"
-                                       Grid.ColumnSpan="1"/>
+                                       Grid.ColumnSpan="1"
+                                       Source= "{Binding Foto}"/>
 
                             <StackLayout Grid.Column="1"
                                          Grid.Row="0"

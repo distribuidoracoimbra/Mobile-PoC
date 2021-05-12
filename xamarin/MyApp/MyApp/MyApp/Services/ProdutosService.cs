@@ -32,7 +32,7 @@ namespace MyApp.Services
                     Descricao = i.Object.Descricao,
                     Estoque = i.Object.Estoque,
                     Valor = i.Object.Valor,
-                    Fotos = i.Object.Fotos
+                    Foto = i.Object.Foto
                 }).ToList();
         }
 

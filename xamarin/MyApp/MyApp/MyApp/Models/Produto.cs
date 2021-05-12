@@ -9,7 +9,7 @@ namespace MyApp.Models
         public string Descricao { get; set; }
         public double Estoque { get; set; }
         public double Valor { get; set; }
-        public List<string> Fotos { get; set; }
+        public string Foto { get; set; }
     }
 
 }
