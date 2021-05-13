@@ -60,11 +60,20 @@ const PedidoProvider: React.FC = ({children}) => {
         ): IAdicionarProdutosEmUmPedido.Result => {
             _setLoading(true);
             const {pedido_id, produto_id, quantidade} = pedido;
+            console.log(pedido_id);
+            console.log(produto_id);
+            console.log(quantidade);
+
+            if (!pedido_id || !produto_id || !quantidade) {
+                throw new Error('Parametros inválidos !');
+            }
 
             produtosDeUmPedidosRef
                 .where('pedido_id', '==', pedido_id)
                 .get()
                 .then((pedidoRef) => {
+                    console.log(pedidoRef);
+
                     if (pedidoRef.empty) {
                         produtosDeUmPedidosRef.add({
                             pedido_id,
@@ -78,7 +87,8 @@ const PedidoProvider: React.FC = ({children}) => {
                             }),
                         );
                     }
-                });
+                })
+                .catch((err) => console.log(err));
 
             _setLoading(false);
             return undefined;

@@ -1,11 +1,11 @@
 import React from 'react';
 import {FlatList, TouchableHighlight} from 'react-native';
-import {usePedidos} from '../../../hooks/pedidos';
-import ContainerTotal from '../../../components/ContainerTotal';
+import {usePedidos} from '../../../../../hooks/pedidos';
+import ContainerTotal from '../../../../../components/ContainerTotal';
 import LottieAnimation from 'lottie-react-native';
 import {useNavigation} from '@react-navigation/native';
-import ContainerPedidos from '../../../components/ContainerPedidos';
-import {IPedido} from '../../../../domain/pedido';
+import ContainerPedidos from '../../../../../components/ContainerPedidos';
+import {IPedido} from '../../../../../../domain/pedido';
 
 import {Container} from './styles';
 
@@ -30,6 +30,8 @@ export const Pedidos: React.FC = () => {
         },
         [navigate],
     );
+
+    console.log(pedidos.length);
 
     return (
         <Container>
@@ -65,7 +67,7 @@ export const Pedidos: React.FC = () => {
                         style={{
                             display: 'flex',
                         }}
-                        source={require('../Notificacoes/rocket-dog.json')}
+                        source={require('../../../Notificacoes/rocket-dog.json')}
                     />
                 </React.Fragment>
             )}

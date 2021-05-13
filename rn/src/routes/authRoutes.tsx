@@ -23,6 +23,8 @@ import {
     Pedidos,
     Produtos,
     InfoPedidos,
+    AddNewItems,
+    CriarPedido,
 } from '../pages/Auth';
 
 // import { Container } from './styles';
@@ -55,6 +57,20 @@ const PedidosRoutes: React.FC = () => {
                 name="EditPedidos"
                 component={InfoPedidos}
             />
+            <PedidosStack.Screen
+                options={{
+                    title: 'Adicionar novos itens',
+                }}
+                name="AddNewItems"
+                component={AddNewItems}
+            />
+            <PedidosStack.Screen
+                options={{
+                    title: 'Criar pedido',
+                }}
+                name="CreateOrder"
+                component={CriarPedido}
+            />
         </PedidosStack.Navigator>
     );
 };
@@ -85,7 +101,7 @@ const AuthRoutes: React.FC = () => {
                 component={PedidosRoutes}
                 name="Pedidos"
                 options={{
-                    tabBarLabel: 'Produtos',
+                    tabBarLabel: 'Pedidos',
                     tabBarIcon: ({color}) => (
                         <MaterialIcon
                             size={24}

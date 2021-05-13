@@ -1,26 +1,16 @@
 import React from 'react';
 import {FlatList, ActivityIndicator, View} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import FeatherIcons from 'react-native-vector-icons/Feather';
-import {TextPrincipal} from '../../../components/Text';
-import {usePedidos} from '../../../hooks/pedidos';
-import {IProdutoWithPedido} from '../../../hooks/pedidos/IPedido';
-import {IProdutoDoPedido} from '../../../../domain/produtos-de-um-pedidos';
-import RowProduto from './RowProduct';
-import LottieAnimation from 'lottie-react-native';
-import RowAddProduct from './RowAddNewProduct';
+import {useNavigation} from '@react-navigation/native';
 
-import {
-    Container,
-    WrapperCliente,
-    WrapperClienteIcon,
-    ClienteWrapperIcon,
-    WrapperTotalDoPedido,
-    TextTotalPedido,
-    LabelTotalPedido,
-    WrapperTitleCard,
-    TitleAddToCart,
-} from './styles';
+import {usePedidos} from '../../../../../hooks/pedidos';
+import {IProdutoWithPedido} from '../../../../../hooks/pedidos/IPedido';
+import {IProdutoDoPedido} from '../../../../../../domain/produtos-de-um-pedidos';
+import RowProduto from '../../components/Row';
+import LottieAnimation from 'lottie-react-native';
+import ContainerCliente from '../../components/RowCliente';
+
+import {Container, WrapperTitleCard, TitleAddToCart} from './styles';
 
 type IParams = {
     readonly: {
@@ -35,26 +25,57 @@ export const InfoPedidos: React.FC = () => {
         {} as IProdutoWithPedido,
     );
 
-    const [addNewProduct, setAddNewProduct] = React.useState<boolean>(false);
-
     const {
         buscarDetalhesDoPedido,
         loading,
         atualizarItensDoPedido,
     } = usePedidos();
     const {params} = useRoute<IParamsPros>();
+    const {navigate} = useNavigation();
 
-    const totalDeLimiteDisponivelDoCliente = React.useMemo(
-        () => (data.pedido ? 30000 - data.pedido.total : 0),
-        [data.pedido],
-    );
-    const _addProduct = React.useCallback(
-        (data: {pro_codigo: number; type: 'add' | 'remove'}) => {
-            const {pro_codigo, type} = data;
-            // atualizarItensDoPedido()
+    const _handleAddProduct = React.useCallback(
+        (pro_codigo: number) => {
+            const oldProd = data.produtos.find(
+                (prod) => prod.pro_codigo === pro_codigo,
+            );
+
+            if (!oldProd) {
+                return;
+            }
+
+            atualizarItensDoPedido({
+                pedido_id: params.pedido_id,
+                produto_id: pro_codigo,
+                quantidade: oldProd.quantidade + 1,
+            });
         },
-        [],
+        [atualizarItensDoPedido, data.produtos, params.pedido_id],
     );
+
+    const _handleDeleteProduct = React.useCallback(
+        (pro_codigo: number) => {
+            const oldProd = data.produtos.find(
+                (prod) => prod.pro_codigo === pro_codigo,
+            );
+
+            if (!oldProd) {
+                return;
+            }
+
+            atualizarItensDoPedido({
+                pedido_id: params.pedido_id,
+                produto_id: pro_codigo,
+                quantidade: oldProd.quantidade + 1,
+            });
+        },
+        [atualizarItensDoPedido, data.produtos, params.pedido_id],
+    );
+
+    const handleGotoAddNewProduct = React.useCallback(() => {
+        navigate('AddNewItems', {
+            pedido_id: params.pedido_id,
+        });
+    }, [navigate, params.pedido_id]);
 
     React.useEffect(() => {
         buscarDetalhesDoPedido(String(params.pedido_id)).then((ped) => {
@@ -78,41 +99,13 @@ export const InfoPedidos: React.FC = () => {
                 </View>
             ) : (
                 <React.Fragment>
-                    <WrapperCliente>
-                        <WrapperClienteIcon>
-                            <ClienteWrapperIcon>
-                                <FeatherIcons
-                                    name="user"
-                                    size={35}
-                                    color="#21C25E"
-                                />
-                            </ClienteWrapperIcon>
-                        </WrapperClienteIcon>
-                        <TextPrincipal>
-                            {data.pedido.cliente?.cli_nome || 'Anônimus'}
-                        </TextPrincipal>
-                        <WrapperTotalDoPedido>
-                            <TextTotalPedido
-                                tipo={
-                                    totalDeLimiteDisponivelDoCliente > 0
-                                        ? 'positivo'
-                                        : 'negativo'
-                                }>
-                                {totalDeLimiteDisponivelDoCliente}
-                            </TextTotalPedido>
-                            <LabelTotalPedido>
-                                Limite disponível
-                            </LabelTotalPedido>
-                        </WrapperTotalDoPedido>
-                    </WrapperCliente>
-                    <WrapperTitleCard onPress={() => setAddNewProduct(true)}>
+                    <ContainerCliente pedido={data.pedido} />
+                    <WrapperTitleCard onPress={handleGotoAddNewProduct}>
                         <TitleAddToCart>
                             Adicione itens no pedido
                         </TitleAddToCart>
                     </WrapperTitleCard>
-                    {addNewProduct ? (
-                        <RowAddProduct pedido_id={params.pedido_id} />
-                    ) : data.produtos.length > 0 ? (
+                    {data.produtos.length > 0 ? (
                         <FlatList<IProdutoDoPedido>
                             data={data.produtos}
                             keyExtractor={({pro_codigo}) =>
@@ -128,8 +121,17 @@ export const InfoPedidos: React.FC = () => {
                                         pro_descricao: item.produto!
                                             .pro_descricao,
                                     }}
-                                    addProduct={_addProduct}
-                                    typeOfRow="increment"
+                                    dealWithChangesInQuantities={({
+                                        type,
+                                        pro_codigo,
+                                    }) => {
+                                        if (type === 'add') {
+                                            return _handleAddProduct(
+                                                pro_codigo,
+                                            );
+                                        }
+                                        return _handleDeleteProduct(pro_codigo);
+                                    }}
                                 />
                             )}
                             initialNumToRender={15}
@@ -146,7 +148,7 @@ export const InfoPedidos: React.FC = () => {
                                 display: 'flex',
                                 zIndex: 0,
                             }}
-                            source={require('../Notificacoes/rocket-dog.json')}
+                            source={require('../../../Notificacoes/rocket-dog.json')}
                         />
                     )}
                 </React.Fragment>

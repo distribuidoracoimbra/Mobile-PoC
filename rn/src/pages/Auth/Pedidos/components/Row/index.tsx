@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text} from 'react-native';
-import {TextPrincipal} from '../../../components/Text';
+import {TextPrincipal} from '../../../../../components/Text';
 
 import {
     WrapperPlusButton,
@@ -12,7 +12,6 @@ import {
     WrapperProductPlus,
     TextButton,
     TextTotalPedido,
-    ButtonAddItem,
 } from './styles';
 
 type IRowProduct = {
@@ -25,14 +24,16 @@ type IRowProduct = {
 
 interface IRowProductProps {
     data: IRowProduct;
-    addProduct?: (data: {pro_codigo: number; type: 'add' | 'remove'}) => void;
-    typeOfRow: 'increment' | 'news';
+    dealWithChangesInQuantities?: (data: {
+        pro_codigo: number;
+        type: 'add' | 'remove';
+        total: number;
+    }) => void;
 }
 
 const RowProduct: React.FC<IRowProductProps> = ({
     data,
-    addProduct,
-    typeOfRow,
+    dealWithChangesInQuantities,
 }) => {
     const {
         pro_imagem,
@@ -42,34 +43,42 @@ const RowProduct: React.FC<IRowProductProps> = ({
         pro_codigo,
     } = data;
 
+    const [total, increment] = React.useState(0);
+
     const totalDoPedido = React.useMemo(
         () => Math.round(pro_price * pro_quantidade),
         [pro_price, pro_quantidade],
     );
 
     const handleAddProduct = React.useCallback(() => {
-        if (!addProduct) {
+        increment((old) => old + 1);
+        if (!dealWithChangesInQuantities) {
             return;
         }
 
-        addProduct({
+        dealWithChangesInQuantities({
             pro_codigo,
             type: 'add',
+            total,
         });
-    }, [addProduct, pro_codigo]);
+    }, [dealWithChangesInQuantities, pro_codigo, total]);
 
     const handleDeleteProduct = React.useCallback(() => {
-        if (!addProduct) {
-            return;
-        }
+        increment((old) => {
+            const newTotal = old - 1;
+            if (!dealWithChangesInQuantities) {
+                return newTotal;
+            }
 
-        addProduct({
-            pro_codigo,
-            type: 'remove',
+            dealWithChangesInQuantities({
+                pro_codigo,
+                type: 'remove',
+                total: newTotal,
+            });
+
+            return newTotal;
         });
-    }, [addProduct, pro_codigo]);
-
-    const [addedProduct, setAddedProduct] = React.useState<boolean>(false);
+    }, [dealWithChangesInQuantities, pro_codigo]);
 
     return (
         <WrapperProduct>
@@ -82,25 +91,21 @@ const RowProduct: React.FC<IRowProductProps> = ({
                 </TextPrincipal>
                 <WrapperProcutTotal>
                     <Text>Total</Text>
-                    <TextTotalPedido tipo="positivo">
+                    <TextTotalPedido type="positivo">
                         {totalDoPedido}
                     </TextTotalPedido>
                 </WrapperProcutTotal>
             </WrapperProductInfo>
             <WrapperProductPlus>
-                {typeOfRow === 'increment' && (
-                    <React.Fragment>
-                        <WrapperPlusButton onPress={handleAddProduct}>
-                            <TextButton>+</TextButton>
-                        </WrapperPlusButton>
-                        <TextTotalPedido tipo="positivo">
-                            {pro_quantidade}
-                        </TextTotalPedido>
-                        <WrapperPlusButton onPress={handleDeleteProduct}>
-                            <TextButton>-</TextButton>
-                        </WrapperPlusButton>
-                    </React.Fragment>
-                )}
+                <WrapperPlusButton onPress={handleAddProduct}>
+                    <TextButton>+</TextButton>
+                </WrapperPlusButton>
+                <TextTotalPedido type="positivo">
+                    {pro_quantidade}
+                </TextTotalPedido>
+                <WrapperPlusButton onPress={handleDeleteProduct}>
+                    <TextButton>-</TextButton>
+                </WrapperPlusButton>
             </WrapperProductPlus>
         </WrapperProduct>
     );
