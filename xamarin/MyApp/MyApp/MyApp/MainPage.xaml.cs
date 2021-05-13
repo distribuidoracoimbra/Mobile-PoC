@@ -26,7 +26,7 @@ namespace MyApp
             MasterPageItem Produto = new MasterPageItem() { Title = "Produtos", Icon = "ic_restaurant.png", TargetType = typeof(ListaProdutosView) };
             MasterPageItem Cliente = new MasterPageItem() { Title = "Clientes", Icon = "ic_local_pizza.png", TargetType = typeof(ListaClienteView) };
             MasterPageItem Contato = new MasterPageItem() { Title = "Contatos", Icon = "ic_local_dining.png", TargetType = typeof(ContatosView) };
-            MasterPageItem Comunicacao = new MasterPageItem() { Title = "Comunicação", Icon = "ic_local_dining.png", TargetType = typeof(Produtos) };
+            MasterPageItem Comunicacao = new MasterPageItem() { Title = "Comunicação", Icon = "ic_local_dining.png", TargetType = typeof(ContatosView) };
 
             // Adding menu items to menuList
             MenuList.Add(Pedido);

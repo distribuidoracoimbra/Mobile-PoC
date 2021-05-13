@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyApp.Views.ListaClienteView"
-             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="MyApp.Views.ListaClienteView" xmlns:vm="clr-namespace:MyApp.ViewModels"
              Title="Lista de Clientes">
+
+    <ContentPage.BindingContext>
+        <vm:ClientesViewModel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <ListView  x:Name="ListViewClientes"
-                   ItemsSource="{Binding clientesLista}"
+                   ItemsSource="{Binding ListaClientes}"
                    HasUnevenRows="true"
                    SeparatorVisibility="Default"
                    ItemTapped="OnItemSelected">
@@ -29,17 +33,17 @@
                                 
                                 <Label x:Name="lblcli_codigo"
                                        FontAttributes="Bold"
-                                       Text="{Binding cli_codigo, StringFormat= '{0:F0}'}"
+                                       Text="{Binding Codigo, StringFormat= '{0:F0}'}"
                                        VerticalOptions="End"/>
 
                                 <Label VerticalOptions="Start"
                                        FontAttributes="Bold"
-                                       Text="{Binding cli_nome, StringFormat= '- {0:F0}'}"/>
+                                       Text="{Binding Nome, StringFormat= '- {0:F0}'}"/>
                             </StackLayout>
 
                             <Label Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="{Binding cli_limite, StringFormat= 'Limite  R$ {0:F0}'}"
+                                   Text="{Binding Limite, StringFormat= 'Limite  R$ {0:F0}'}"
                                    VerticalOptions="End"
                                    HorizontalTextAlignment="Start"/>
                         </Grid>

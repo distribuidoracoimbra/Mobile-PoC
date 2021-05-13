@@ -1,6 +1,5 @@
 ﻿using MyApp.Models;
 using MyApp.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -27,7 +26,10 @@ namespace MyApp.ViewModels
         public async Task LoadProdutos()
         {
             ProdutosService produtosService = new ProdutosService();
-            var listaProduto = await produtosService.GetProdutos();
+            List<Produto> listaProduto = await produtosService.GetProdutos();
+
+            ListaProdutos.Clear();
+
             foreach (Produto item in listaProduto)
             {
                 ListaProdutos.Add(item);

@@ -1,26 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MyApp.Models
 {
-    public class CliEndereco
+    public class Endereco
     {
-        public double cli_coord_latitude { get; set; }
-        public double cli_coord_longitude { get; set; }
-        public string cli_cep { get; set; }
+        [JsonProperty("cli_coord_latitude")]
+        public double Latitude { get; set; }
+
+        [JsonProperty("cli_coord_longitude")]
+        public double Longitude { get; set; }
+
+        [JsonProperty("cli_cep")]
+        public string Cep { get; set; }
     }
 
     public class Cliente
     {
-        public int cli_codigo { get; set; }
-        public string cli_nome { get; set; }
-        public List<string> cli_fones { get; set; }
-        public double cli_limite { get; set; }
-        public CliEndereco cli_endereco { get; set; }
+        [JsonProperty("cli_codigo")]
+        public int Codigo { get; set; }
+
+        [JsonProperty("cli_nome")]
+        public string Nome { get; set; }
+
+        [JsonProperty("cli_fones")]
+        public List<string> Telefones { get; set; }
+
+        [JsonProperty("cli_limite")]
+        public double Limite { get; set; }
+
+        [JsonProperty("cli_endereco")]
+        public Endereco Endereco { get; set; }
     }
 
     public class ListaClientes
     {
-        public List<Cliente> clientes { get; set; }
+        public List<Cliente> Clientes { get; set; }
         
     }
 

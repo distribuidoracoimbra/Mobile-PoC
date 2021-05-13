@@ -21,7 +21,6 @@ namespace MyApp.Services
             return produtoData;
         }
 
-
         public async Task<List<Produto>> GetProdutos()
         {
             return (await firebase
@@ -35,7 +34,5 @@ namespace MyApp.Services
                     Foto = i.Object.Foto
                 }).ToList();
         }
-
-
     }
 }

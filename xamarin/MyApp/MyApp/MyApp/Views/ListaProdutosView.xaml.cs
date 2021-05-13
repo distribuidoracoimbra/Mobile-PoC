@@ -6,12 +6,12 @@ namespace MyApp.Views
 {
     public partial class ListaProdutosView : ContentPage
     {
-        ProdutosViewModel produtosVM;
+        private readonly ProdutosViewModel produtosVM;
         public ListaProdutosView()
         {
             InitializeComponent();
             produtosVM = new ProdutosViewModel();
-            this.BindingContext = produtosVM;
+            BindingContext = produtosVM;
         }
         protected async override void OnAppearing()
         {
