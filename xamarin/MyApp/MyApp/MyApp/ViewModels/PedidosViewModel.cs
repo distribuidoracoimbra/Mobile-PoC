@@ -12,14 +12,14 @@ namespace MyApp.ViewModels
 {
     public class PedidosViewModel : BaseViewModel
     {
-        private ObservableCollection<Pedido> _pedidos;
+        private ObservableCollection<Pedido> _listaPedidos;
 
-        public ObservableCollection<Pedido> Pedidos
+        public ObservableCollection<Pedido> ListaPedidos
         {
-            get => _pedidos;
+            get => _listaPedidos;
             set
             {
-                _pedidos = value;
+                _listaPedidos = value;
                 OnPropertyChanged();
             }
         }
@@ -29,14 +29,38 @@ namespace MyApp.ViewModels
 
         public PedidosViewModel()
         {
-            Pedidos = new ObservableCollection<Pedido>();
+            ListaPedidos = new ObservableCollection<Pedido>();
             AceitarPedidoCmd = new Command(async () => await AceitarPedidoAsync());
         }
 
         private async Task AceitarPedidoAsync()
         {
+            
+            PedidoSelecionado = new Pedido();
+            PedidoSelecionado.PedidoID = 0;
+            PedidoSelecionado.ProdutoID = 1890;
+           // PedidoSelecionado.Data = DateTime.Now;
+            PedidoSelecionado.Quantidade = 5;
+            PedidoSelecionado.Valor = 71400 * 5;
+            PedidoSelecionado.ClienteID = 76813;
+            
+
             PedidosService pedidoService = new PedidosService();
             await pedidoService.AddPedido(PedidoSelecionado);
         }
+
+        public async Task LoadPedidos()
+        {
+            PedidosService pedidoService = new PedidosService();
+            List<Pedido> listaPedidos = await pedidoService.GetPedidos();
+
+            ListaPedidos.Clear();
+
+            foreach (Pedido item in listaPedidos)
+            {
+                ListaPedidos.Add(item);
+            }
+        }
+
     }
 }

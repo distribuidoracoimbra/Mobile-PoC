@@ -22,11 +22,11 @@ namespace MyApp
             MenuList = new List<MasterPageItem>();
 
             //Fot Ios icons
-            MasterPageItem Pedido = new MasterPageItem() { Title = "Pedidos", Icon = "ic_local_shipping.png", TargetType = typeof(PedidosView) };
-            MasterPageItem Produto = new MasterPageItem() { Title = "Produtos", Icon = "ic_restaurant.png", TargetType = typeof(ListaProdutosView) };
-            MasterPageItem Cliente = new MasterPageItem() { Title = "Clientes", Icon = "ic_local_pizza.png", TargetType = typeof(ListaClienteView) };
-            MasterPageItem Contato = new MasterPageItem() { Title = "Contatos", Icon = "ic_local_dining.png", TargetType = typeof(ContatosView) };
-            MasterPageItem Comunicacao = new MasterPageItem() { Title = "Comunicação", Icon = "ic_local_dining.png", TargetType = typeof(ContatosView) };
+            MasterPageItem Pedido      = new MasterPageItem() { Title = "Pedidos", Icon = "shopBag.png", TargetType = typeof(PedidosView) };
+            MasterPageItem Produto     = new MasterPageItem() { Title = "Produtos", Icon = "products.png", TargetType = typeof(ListaProdutosView) };
+            MasterPageItem Cliente     = new MasterPageItem() { Title = "Clientes", Icon = "client.png", TargetType = typeof(ListaClienteView) };
+            MasterPageItem Contato     = new MasterPageItem() { Title = "Contatos", Icon = "contacts.png", TargetType = typeof(ContatosView) };
+            MasterPageItem Comunicacao = new MasterPageItem() { Title = "Comunicação", Icon = "config.png", TargetType = typeof(ContatosView) };
 
             // Adding menu items to menuList
             MenuList.Add(Pedido);
@@ -42,7 +42,7 @@ namespace MyApp
             BindingContext = new
             {
                 Header = "",
-                Image = "http://www3.hilton.com/resources/media/hi/GSPSCHF/en_US/img/shared/full_page_image_gallery/main/HH_food_22_675x359_FitToBoxSmallDimension_Center.jpg",
+                Image = "homerfooter.png",
                 Footer = "Bem vindo ao Go Beer!"
             };
 

@@ -1,6 +1,8 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using MyApp.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyApp.Services
@@ -17,5 +19,21 @@ namespace MyApp.Services
                           .PutAsync(PedidoSelecionado);
         }
 
+        
+        public async Task<List<Pedido>> GetPedidos()
+        {
+            return (await firebase
+                .Child("Pedidos")
+                .OnceAsync<Pedido>()).Select(i => new Pedido
+                {
+                    PedidoID = i.Object.PedidoID,
+                    ClienteID = i.Object.ClienteID,
+                    ProdutoID = i.Object.ProdutoID,
+                    Valor = i.Object.Valor,
+                    Quantidade = i.Object.Quantidade
+                    //Data = i.Object.Data.Date
+                }).ToList();
+        }
+        
     }
 }

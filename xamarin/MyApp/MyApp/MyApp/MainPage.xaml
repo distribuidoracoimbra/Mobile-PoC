@@ -16,9 +16,9 @@
                 <StackLayout >
                     <Label Text="{Binding Header}" />
 
-                    <Image Source="{Binding Image}" Aspect="Fill" />
+                    <Image Source="{Binding Image}" Aspect="AspectFit" />
 
-                    <Label Text="{Binding Footer}" />
+                    <Label Text="{Binding Footer}" Padding="25, 10, 0, 0"/>
                 </StackLayout>
 
                 <ListView x:Name="navigationDrawerList"

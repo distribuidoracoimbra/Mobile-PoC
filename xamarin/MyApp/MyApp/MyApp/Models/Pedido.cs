@@ -9,9 +9,9 @@ namespace MyApp.Models
         public int PedidoID { get; set; }
         public int ClienteID { get; set; }
         public int ProdutoID { get; set; }
-        public decimal Valor { get; set; }
-        public decimal Quantidade { get; set; }
-        public DateTime Data { get; set; }
+        public double Valor { get; set; }
+        public double Quantidade { get; set; }
+       // public DateTime Data { get; set; }
 
     }
 }

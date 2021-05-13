@@ -15,7 +15,7 @@
                    FontSize="25"
                    FontAttributes="Bold"/>
 
-            <ListView ItemsSource="{Binding Pedidos}"
+            <ListView ItemsSource="{Binding ListaPedidos}"
                       ItemSelected="ListView_OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -53,11 +53,7 @@
                                        Grid.ColumnSpan="2"
                                        FontSize="12"/>
 
-                                <Label Text="{Binding Data}"
-                                       Grid.Row="1"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       FontSize="12"/>
+                                
 
                             </Grid>
                         </ViewCell>

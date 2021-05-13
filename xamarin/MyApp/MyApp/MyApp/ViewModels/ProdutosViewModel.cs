@@ -32,7 +32,7 @@ namespace MyApp.ViewModels
 
             foreach (Produto item in listaProduto)
             {
-                ListaProdutos.Add(item);
+               ListaProdutos.Add(item);
             }
         }
     }   
