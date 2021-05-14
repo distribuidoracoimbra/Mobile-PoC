@@ -1,4 +1,6 @@
-﻿using MyApp.Models;
+﻿using AsyncAwaitBestPractices.MVVM;
+using MvvmHelpers;
+using MyApp.Models;
 using MyApp.Services;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ namespace MyApp.ViewModels
     public class PedidosViewModel : BaseViewModel
     {
         private ObservableCollection<Pedido> _listaPedidos;
+
+        public AsyncCommand RefreshCommand { get; }
 
         public ObservableCollection<Pedido> ListaPedidos
         {
@@ -31,6 +35,7 @@ namespace MyApp.ViewModels
         {
             ListaPedidos = new ObservableCollection<Pedido>();
             AceitarPedidoCmd = new Command(async () => await AceitarPedidoAsync());
+            RefreshCommand = new AsyncCommand(LoadPedidos);
         }
 
         private async Task AceitarPedidoAsync()
@@ -51,6 +56,7 @@ namespace MyApp.ViewModels
 
         public async Task LoadPedidos()
         {
+            IsBusy = true;
             PedidosService pedidoService = new PedidosService();
             List<Pedido> listaPedidos = await pedidoService.GetPedidos();
 
@@ -60,6 +66,7 @@ namespace MyApp.ViewModels
             {
                 ListaPedidos.Add(item);
             }
+            IsBusy = false;
         }
 
     }

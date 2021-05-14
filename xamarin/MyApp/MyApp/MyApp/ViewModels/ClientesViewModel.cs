@@ -1,15 +1,16 @@
-﻿using MyApp.Models;
+﻿using AsyncAwaitBestPractices.MVVM;
+using MyApp.Models;
 using MyApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
+using MvvmHelpers;
 
 namespace MyApp.ViewModels
 {
     public class ClientesViewModel : BaseViewModel
     {
+        public AsyncCommand RefreshCommand { get; }
+
         private ObservableCollection<Cliente> _ListaClientes;
         public ObservableCollection<Cliente> ListaClientes
         {
@@ -24,9 +25,11 @@ namespace MyApp.ViewModels
         public ClientesViewModel()
         {
             ListaClientes = new ObservableCollection<Cliente>();
+            RefreshCommand = new AsyncCommand(LoadClientes);
         }
         public async Task LoadClientes()
         {
+            IsBusy = true;
             ClienteService clienteService = new ClienteService();
             ListaClientes listaCliente = await clienteService.GetClientes();
 
@@ -36,6 +39,7 @@ namespace MyApp.ViewModels
             {
                 ListaClientes.Add(item);
             }
+            IsBusy = false;
         }
 
     }

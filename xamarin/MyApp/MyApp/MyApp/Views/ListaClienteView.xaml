@@ -13,7 +13,11 @@
                    ItemsSource="{Binding ListaClientes}"
                    HasUnevenRows="true"
                    SeparatorVisibility="Default"
-                   ItemTapped="OnItemSelected">
+                   ItemTapped="OnItemSelected"
+                   IsPullToRefreshEnabled="True"
+                   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                   RefreshCommand="{Binding RefreshCommand}"
+                   CachingStrategy="RecycleElement">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

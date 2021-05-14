@@ -10,8 +10,11 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView ItemsSource="{Binding ListaPedidos}"
-
-                      ItemTapped="OnItemSelected">
+                      ItemTapped="OnItemSelected"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      CachingStrategy="RecycleElement">
                 <ListView.ItemTemplate >
                     <DataTemplate>
                         <ViewCell>

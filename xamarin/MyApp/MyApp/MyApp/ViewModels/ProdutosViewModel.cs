@@ -1,15 +1,16 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
+using MvvmHelpers;
 using MyApp.Models;
 using MyApp.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
+
 namespace MyApp.ViewModels
 {
     public class ProdutosViewModel : BaseViewModel
     {
-        public bool IsBusy { get; set; }
 
         public AsyncCommand RefreshCommand { get; }
 
