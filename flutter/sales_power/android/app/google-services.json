@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "813652190098",
+    "project_id": "sales-power-a9f67",
+    "storage_bucket": "sales-power-a9f67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813652190098:android:00a34d6067c2a0d674574b",
+        "android_client_info": {
+          "package_name": "com.poc.sales_power"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813652190098-bt88gbqcav19u8bp2e3q8so4fjsathsf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqmlOJfQH7lqYnHmbE57W4wKlm__vRA_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813652190098-bt88gbqcav19u8bp2e3q8so4fjsathsf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
