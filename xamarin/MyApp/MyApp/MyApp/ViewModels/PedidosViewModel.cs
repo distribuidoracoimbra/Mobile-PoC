@@ -39,7 +39,7 @@ namespace MyApp.ViewModels
             PedidoSelecionado = new Pedido();
             PedidoSelecionado.PedidoID = 0;
             PedidoSelecionado.ProdutoID = 1890;
-           // PedidoSelecionado.Data = DateTime.Now;
+            PedidoSelecionado.Data = DateTime.Now;
             PedidoSelecionado.Quantidade = 5;
             PedidoSelecionado.Valor = 71400 * 5;
             PedidoSelecionado.ClienteID = 76813;

@@ -15,7 +15,7 @@ namespace MyApp.Views
         {
             InitializeComponent();
             pedidoModel = new PedidosViewModel();
-            BindingContext = pedidoModel;
+            BindingContext = pedidoModel; 
         }
 
         protected async override void OnAppearing()
@@ -26,14 +26,16 @@ namespace MyApp.Views
 
         private async void OnItemSelected(Object sender, ItemTappedEventArgs e)
         {
-            var mydetails = e.Item as Produto;
-            await Navigation.PushAsync(new ListaProdutosDetailView(mydetails.ProdutoID.ToString(), mydetails.Descricao, mydetails.Estoque.ToString(), mydetails.Foto.ToString(), mydetails.Valor.ToString()));
+            var mydetails = e.Item as Pedido;
+            await Navigation.PushAsync(new PedidoDetailView(mydetails.PedidoID, 
+                                                            mydetails.ProdutoID, 
+                                                            mydetails.ClienteID, 
+                                                            mydetails.Quantidade, 
+                                                            mydetails.Valor,
+                                                            mydetails.Data
+                                                            ));
         }
 
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            //_viewModel.PedidoSelecionado = e.SelectedItem As Pedido;
-        }
     }
 }
 

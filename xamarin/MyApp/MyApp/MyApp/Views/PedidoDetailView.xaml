@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MyApp.Views.PedidoDetailView" Title="Detalhe do Pedido">
+    <ContentPage.Content>
+
+        <StackLayout HorizontalOptions="Center">
+            <Image x:Name="ImagemProduto" WidthRequest="1080"/>
+
+            
+
+            <Label x:Name="lblpedidoId" 
+                       HorizontalTextAlignment="Start"  
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       Padding="10,  0, 0, 0"/>
+            
+                <Label x:Name="lblprodutoID" 
+                       HorizontalTextAlignment="Start"  
+                       FontSize="18"
+                       Padding="10,  0, 5, 5"/>
+
+            <Label x:Name="lblclienteID"   FontSize="14" Padding="10, 0, 5, 5"/>
+            <Label x:Name="lblquantidade" FontSize="14" Padding="10, 0, 5, 5"/>
+            <Label x:Name="lblvalor"   FontSize="14" Padding="10, 0, 5, 5"/>
+            <Label x:Name="lbldata" FontSize="14" Padding="10, 0, 5, 5"/>
+
+            <Button x:Name="btnAtualizar" Text="Atualizar" BackgroundColor="YellowGreen" Margin=" 5,5,5,5" />
+            <Button x:Name="btnDelete" Text="Deletar" BackgroundColor="Salmon" Margin=" 5,5,5,5" />
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

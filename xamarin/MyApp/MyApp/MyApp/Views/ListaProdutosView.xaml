@@ -14,7 +14,10 @@
                    ItemsSource="{Binding ListaProdutos}"
                    HasUnevenRows="true"
                    SeparatorVisibility="Default"
-                   ItemTapped="OnItemSelected">
+                   ItemTapped="OnItemSelected"
+                   IsPullToRefreshEnabled="True"
+                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                   RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

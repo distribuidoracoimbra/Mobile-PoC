@@ -6,6 +6,7 @@ namespace MyApp.Views
 {
     public partial class ListaProdutosView : ContentPage
     {
+
         private readonly ProdutosViewModel produtosVM;
         public ListaProdutosView()
         {

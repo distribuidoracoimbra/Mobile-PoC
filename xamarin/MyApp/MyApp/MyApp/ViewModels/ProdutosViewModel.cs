@@ -1,4 +1,5 @@
-﻿using MyApp.Models;
+﻿using AsyncAwaitBestPractices.MVVM;
+using MyApp.Models;
 using MyApp.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,10 @@ namespace MyApp.ViewModels
 {
     public class ProdutosViewModel : BaseViewModel
     {
+        public bool IsBusy { get; set; }
+
+        public AsyncCommand RefreshCommand { get; }
+
         private ObservableCollection<Produto> _ListaProdutos;
         public ObservableCollection<Produto> ListaProdutos
         {
@@ -22,9 +27,11 @@ namespace MyApp.ViewModels
         public ProdutosViewModel()
         {
             ListaProdutos = new ObservableCollection<Produto>();
+            RefreshCommand = new AsyncCommand(LoadProdutos);
         }
         public async Task LoadProdutos()
         {
+            IsBusy = true;
             ProdutosService produtosService = new ProdutosService();
             List<Produto> listaProduto = await produtosService.GetProdutos();
 
@@ -34,6 +41,8 @@ namespace MyApp.ViewModels
             {
                ListaProdutos.Add(item);
             }
+            IsBusy = false;
         }
+
     }   
 }

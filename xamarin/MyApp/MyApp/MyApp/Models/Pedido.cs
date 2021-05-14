@@ -11,7 +11,7 @@ namespace MyApp.Models
         public int ProdutoID { get; set; }
         public double Valor { get; set; }
         public double Quantidade { get; set; }
-       // public DateTime Data { get; set; }
+        public DateTime Data { get; set; }
 
     }
 }

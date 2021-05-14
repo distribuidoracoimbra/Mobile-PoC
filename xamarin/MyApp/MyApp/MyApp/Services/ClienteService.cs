@@ -19,10 +19,6 @@ namespace MyApp.Services
             string json = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<ListaClientes>(json);
-
-            //dynamic jsonDe = JsonConvert.DeserializeObject<ListaClientes>(json);
-
-            //return jsonDe;
         }
     }
 }

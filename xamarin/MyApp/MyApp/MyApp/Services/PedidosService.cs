@@ -15,8 +15,13 @@ namespace MyApp.Services
         public async Task AddPedido(Pedido PedidoSelecionado)
         {
             await firebase.Child("Pedidos")
-                          .Child(PedidoSelecionado.PedidoID.ToString)
-                          .PutAsync(PedidoSelecionado);
+                          .PostAsync( new Pedido() { PedidoID = PedidoSelecionado.PedidoID,
+                                                    Data = PedidoSelecionado.Data,
+                                                    ProdutoID = PedidoSelecionado.ProdutoID,
+                                                    Quantidade = PedidoSelecionado.Quantidade,
+                                                    Valor = PedidoSelecionado.Valor,
+                                                    ClienteID  = PedidoSelecionado.ClienteID
+                          });
         }
 
         
