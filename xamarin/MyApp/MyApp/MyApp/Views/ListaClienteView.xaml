@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyApp.Views.ListaClienteView" xmlns:vm="clr-namespace:MyApp.ViewModels"
+             Title="Lista de Clientes">
+
+    <ContentPage.BindingContext>
+        <vm:ClientesViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ListView  x:Name="ListViewClientes"
+                   ItemsSource="{Binding ListaClientes}"
+                   HasUnevenRows="true"
+                   SeparatorVisibility="Default"
+                   ItemTapped="OnItemSelected"
+                   IsPullToRefreshEnabled="True"
+                   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                   RefreshCommand="{Binding RefreshCommand}"
+                   CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout HorizontalOptions="StartAndExpand" 
+                                         Orientation="Horizontal"
+                                         Grid.Column="0">
+                                
+                                <Label x:Name="lblcli_codigo"
+                                       FontAttributes="Bold"
+                                       Text="{Binding Codigo, StringFormat= '{0:F0}'}"
+                                       VerticalOptions="End"/>
+
+                                <Label VerticalOptions="Start"
+                                       FontAttributes="Bold"
+                                       Text="{Binding Nome, StringFormat= '- {0:F0}'}"/>
+                            </StackLayout>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="{Binding Limite, StringFormat= 'Limite  R$ {0:F0}'}"
+                                   VerticalOptions="End"
+                                   HorizontalTextAlignment="Start"/>
+                        </Grid>
+                    </ViewCell>
+                    <!-- <ViewCell Text="" TextColor="Black"/>-->
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+    </ContentPage.Content>
+</ContentPage>

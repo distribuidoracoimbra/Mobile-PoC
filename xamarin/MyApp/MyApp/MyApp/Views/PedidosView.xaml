@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:MyApp.ViewModels"
+             x:Class="MyApp.Views.PedidosView">
+
+    <ContentPage.BindingContext>
+        <vm:PedidosViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView ItemsSource="{Binding ListaPedidos}"
+                      ItemTapped="OnItemSelected"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" ></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding ProdutoID}"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       Padding="10, 0,0,0"
+                                       />
+
+                                <Label Text="{Binding Quantidade, StringFormat= 'Qtd {0:F0},00'}"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       FontSize="15"
+                                       
+                                       />
+
+                                <Label Text="{Binding Valor, StringFormat= 'R$ {0:F0},00'}"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       FontAttributes="Bold"
+                                       FontSize="15"/>
+
+                                <Label Text="{Binding ClienteID, StringFormat= 'Cliente: {0:F0}'}"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       FontAttributes="Bold"
+                                       Padding="10, 0,0,0"
+                                       FontSize="12"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button
+                Visual="Material"
+                Command="{Binding AceitarPedidoCmd}" 
+                BackgroundColor="YellowGreen"
+                Margin="10"
+                Text="Novo Pedido!"
+            />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

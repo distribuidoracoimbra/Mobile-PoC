@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:MyApp.ViewModels"
+             Title="Lista de Produtos"
+             x:Class="MyApp.Views.ListaProdutosView"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin">
+
+    <ContentPage.BindingContext>
+        <vm:ProdutosViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ListView  x:Name="ListViewProdutos"
+                   ItemsSource="{Binding ListaProdutos}"
+                   HasUnevenRows="true"
+                   SeparatorVisibility="Default"
+                   ItemTapped="OnItemSelected"
+                   IsPullToRefreshEnabled="True"
+                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                   RefreshCommand="{Binding RefreshCommand}"
+                   CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controls:CircleImage
+                                
+                                       HeightRequest="60"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"
+                                       Aspect="AspectFill"
+                                       WidthRequest="66"
+                                       Grid.RowSpan="3"
+                                       Grid.ColumnSpan="1"
+                                       Source= "{Binding Foto}"/>
+
+                            <StackLayout Grid.Column="1"
+                                         Grid.Row="0"
+                                         HorizontalOptions="StartAndExpand" 
+                                         Orientation="Horizontal" >
+                                <Label FontAttributes="Bold"
+                                       Text="{Binding ProdutoID , StringFormat= '{0:F0}'}" />
+                                <Label FontAttributes="Bold"
+                                       Text="{Binding Descricao , StringFormat= '- {0:F0}'}" />
+                            </StackLayout>
+                            
+
+                            <Label  Grid.Row="1"
+                                    Grid.Column="1"  
+                                    VerticalOptions="Start"
+                                    Text="{Binding Valor, StringFormat= 'R$ {0:F0},00'}"/>
+
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding Estoque, StringFormat= 'Disponivel {0:F0}'}"
+                                   VerticalOptions="End"
+                                   HorizontalTextAlignment="Start"                                  
+                                   />
+                        </Grid>
+                    </ViewCell>
+                    <!-- <ViewCell Text="" TextColor="Black"/>-->
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+    </ContentPage.Content>
+</ContentPage>
